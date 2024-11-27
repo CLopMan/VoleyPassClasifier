@@ -337,6 +337,22 @@ hmargin=3cm
     \chapter{Métodos}
     \label{chap:metodos}
 
+    \section{Análisis de datos}
+    Para la realización del trabajo, se han utilizado dos bases de datos que
+    etiquetan vídeos de volleyball profesional. La primera contiene 4830
+    secuencias extraídas de 55 vídeos distintos, cada una compuesta de 41
+    \textit{frames}. Para cada secuencia se etiqueta la acción realizada durante
+    la secuencia, asi como la posición y acción de cada jugador durante los
+    frames 11 a 30. La segunda base de datos utiliza el mismo conjunto de videos
+    y secuencias, pero etiqueta la posición de la bola en cada frame de cada
+    secuencia.
+
+    Ya que el objetivo de este trabajo es la clasificación de pases, estos datos
+    se han filtrado a las secuencias con la clase \verb!r_set! o \verb!l_set!.
+    Esto reduce el número de secuencias etiquetadas a 1276. Cada una de estas
+    secuencias se ha etiquetado manualmente según si contiene un pase correcto
+    o incorrecto.
+
     \chapter{Análisis de resultados}
     \label{chap:resultados}
 
