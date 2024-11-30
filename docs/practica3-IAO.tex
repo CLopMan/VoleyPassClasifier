@@ -425,16 +425,38 @@ hmargin=3cm
     etiquetan vídeos de volleyball profesional. La primera contiene 4830
     secuencias extraídas de 55 vídeos distintos, cada una compuesta de 41
     \textit{frames}. Para cada secuencia se etiqueta la acción realizada durante
-    la secuencia, asi como la posición y acción de cada jugador durante los
-    frames 11 a 30. La segunda base de datos utiliza el mismo conjunto de videos
-    y secuencias, pero etiqueta la posición de la bola en cada frame de cada
-    secuencia.
+    la secuencia, con uno de los siguientes valores: \verb!l-spike!,
+    \verb!r_spike!, \verb!r-pass!, \verb!l_winpoint!, \verb!l_set!,
+    \verb!l-pass!, \verb!r_winpoint! o \verb!r_set!. Además, también se etiqueta
+    la posición y acción de cada jugador durante los frames 11 a 30. Esto se
+    hace con una 10-tupla con los valores ID del jugador, \verb!xmin!,
+    \verb!ymin!, \verb!xmax!, \verb!ymax!, ID del frame en su video,
+    \verb!lost!, \verb!grouping!, \verb!generated! y tipo. \verb!xmin!,
+    \verb!ymin!, \verb!xmax! e \verb!ymax! definen el rectangulo en el que se
+    encuentra el jugador, y el tipo puede tomar uno de los siguientes valores:
+    \verb!waiting!, \verb!setting!, \verb!blocking!, \verb!spiking!,
+    \verb!standing!, \verb!falling!, \verb!jumping!, \verb!moving! o
+    \verb!digging!. Por último, \verb!lost! indica si el rectangulo anotado está
+    fuera del campo de visión, \verb!grouping! indica si el jugador está
+    involucrado en la acción principal, y \verb!generated! indica si el
+    rectangulo fue automáticamente interpolado.
 
-    Ya que el objetivo de este trabajo es la clasificación de pases, estos datos
-    se han filtrado a las secuencias con la clase \verb!r_set! o \verb!l_set!.
-    Esto reduce el número de secuencias etiquetadas a 1276. Cada una de estas
-    secuencias se ha etiquetado manualmente según si contiene un pase correcto
-    o incorrecto.
+    La segunda base de datos utiliza el mismo conjunto de videos y secuencias,
+    pero etiqueta la posición $x$ e $y$ del centro de la bola en cada frame de
+    cada secuencia. Debido a esto, se puede combinar con la primera base de
+    datos para obtener todos los datos que necesitamos. En los casos en los que
+    la bola no se puede ver claramente (ya sea por que está oculta o porque se
+    mueve demasiado rápido), esta base de datos etiqueta la localización
+    estimada de la bola.
+
+    Ya que este trabajo está centrado en los pases, los datos de la primera base
+    de datos se han filtrado a las secuencias con la clase \verb!r_set! o
+    \verb!l_set!. Esto reduce el número de secuencias etiquetadas a 1276. Cada
+    una de estas secuencias se ha etiquetado manualmente según si contiene un
+    pase correcto o incorrecto. Se ha definido un pase correcto como aquel en el
+    que la persona que realiza el pase toca la bola con la punta de los dedos,
+    mientras que un pase incorrecto es aquel en el que la persona que realiza el
+    pase no toca la bola o la toca con el antebrazo.
 
     \chapter{Análisis de resultados}
     \label{chap:resultados}
