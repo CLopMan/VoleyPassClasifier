@@ -71,6 +71,8 @@ hmargin=3cm
 \rfoot{\thepage}
 \fancypagestyle{plain}{\pagestyle{fancy}}
 
+\usepackage{eurosym}
+
 % DISEÑO DE LOS TÍTULOS de las partes del trabajo (capítulos y epígrafes o subcapítulos)
 \usepackage{titlesec}
 \usepackage{titletoc}
@@ -334,8 +336,74 @@ hmargin=3cm
     \chapter{Introducción}
     \label{chap:intro}
 
-    \chapter{Métodos}
+    \chapter{Estado del arte}
+    \label{chap:estadoarte}
+    En el mundo de los deportes siempre se ha usado la estadística con el fin
+    de medir el rendimiento y la mejora de los deportistas y equipos durante el
+    periodo competitivo. En el volleyball español se emplean principalmente dos
+    métodos para la toma de estadísticas de partidos según cuándo se realice:
+    \begin{itemize}
+        \item Toma de estadísticas en tiempo real: durante los partidos una o
+        varias personas toman estadísticas manualmente o a través de
+        herramientas especializadas.
+        \item Toma de estadísticas en diferido: se graba el partido y
+        posteriormente se revisa la grabación tomando estadísticas.
+    \end{itemize}
+
+    Ambas aproximaciones presentan claros problemas, especialmente hablando del
+    groso de equipos federados que no cuentan con recursos suficientes para que
+    esta actividad presente ventajas frente al esfuerzo que require. Hablando
+    en concreto de madrid, existen 99 clubes~\cite{directorio-clubes} y más de
+    6000 deportistas~\cite{estadisticasFEVB}; mientras que sólamente existen
+    201 técnicos (entrenadores y auxiliares)~\cite{estadisticasFEVB}. Esto
+    refleja el claro desbalance que existe entre técnicos y deportistas, lo que
+    hace imposible que muchos clubes cuenten con los recursos suficientes para
+    la toma de estadísticas de forma eficiente.
+
+    \section{Toma de estadísticas en tiempo real}
+    
+    Esta aproximación se suele tomar en equipos profesionales y a través de
+    herramientas específicas. La toma de estadísticas suele realizarse por 3 o
+    5 técnicos para su posterior publicación. Esto se hace mediante el programa
+    \textit{Data volley}~\cite{datavoley}, un software especializado cuya
+    licencia más económica parte en los 299\euro. 
+
+    En equipos no profesionales, dependiendo del nivel de la competición, se
+    suele tener un primer y un segundo entrenador. El primer entrenador dirige
+    al equipo durante el encuentro y el segundo toma unas estadísticas
+    reducidas y asesora al primero en otros menesteres. En equipos donde no
+    existe la figura del segundo entrenador lo normal es no tomar estadísticas
+    durante el encuentro.
+
+    \section{Toma de estadísticas en diferido}
+
+    La toma de estadísticas en diferido es la aproximación habitual para
+    equipos con un único entrenador. Esta forma de tomar estadísticas presenta
+    2 problemas: la falta de tiempo y la iniciativa individual.
+
+    Respecto a la falta de tiempo, es importante entender que el voleibol en
+    españa es un deporte minoritario. Además, un partido de voley puede durar
+    entre 45 y 180 minutos según la categoría. El análisis del metraje y la
+    toma de estadísticas puede multiplicar este tiempo por un factor de entre 3
+    y 5 de manera habitual. Esto sumado a que la mayoría de entrenadores no
+    tienen el voleibol como fuente de ingresos principal y que deben combinar
+    su actividad como técnicos deportivos con otras actividades se
+    traduce en que a muchos entrenadores les resulte imposible invertir el
+    tiempo en revisar las grabaciones y tomar estadísticas de sus equipos.
+
+    Adicionalmente, la mayoría de pabellones y clubes no cuentan con la
+    infraestructura (cámaras, trípodes y espacio) necesaria para obtener
+    grabaciones de buena calidad que puedan ser fácilmente analizadas. La
+    mayoría de entrenadores que realizan la toma de estadísticas en diferido lo
+    hacen por iniciativa propia. Esto desincentiva la actividad, haciendo de la
+    toma de estadísticas en diferido un lujo que pueden permitirse sólo los
+    clubes con mayor poder adquisitivo para facilitar la infraestructura a sus
+    entrenadores.
+    
+    
+    \chapter{Objetivo}
     \label{chap:metodos}
+
 
     \section{Análisis de datos}
     Para la realización del trabajo, se han utilizado dos bases de datos que
