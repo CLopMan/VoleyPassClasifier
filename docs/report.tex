@@ -336,11 +336,36 @@ hmargin=3cm
     \chapter{Introducción}
     \label{chap:intro}
 
+    En este documento se recoge el desarrollo y conclusiones del proyecto final
+    de la asignatura \textit{Inteligencia artificial en las organizaciones}.
+
+    En el ámbito del deporte, el análisis del rendimiento ha sido
+    tradicionalmente una tarea realizada por entrenadores y analistas, quienes
+    observan los partidos para evaluar las acciones y estrategias de los
+    jugadores. Sin embargo, este proceso es subjetivo, requiere tiempo y puede
+    verse afectado por sesgos humanos. Con los avances recientes en
+    inteligencia artificial (IA) y visión por computadora, se abren nuevas
+    oportunidades para automatizar y mejorar el análisis deportivo,
+    proporcionando una evaluación más objetiva, detallada y rápida.
+
+    El voleibol es un deporte caracterizado por su velocidad, coordinación de
+    varios jugadores y variedad táctica. La evaluación precisa de las acciones
+    es una tarea fundamental para optimizar el desempeño tanto individual como
+    colectivo. En este contexto, una IA capaz de reconocer y analizar
+    secuencias del juego tiene el potencial de transformar la forma en la que
+    se estudian los partidos, optimizando el proceso. 
+
+    Este trabajo de investigación explora el desarrollo y aplicación de una
+    inteligencia artificial entrenada específicamente para evaluar acciones de
+    voleibol en vídeo. La propuesta combina algoritmos ámpliamente
+    desarrollados para el reconocimiento de imágenes como YOLO~\cite{YOLO} y
+    técnicas de análisis deportivo.
+
+ 
+
     \chapter{Estado del arte}
     \label{chap:estadoarte}
-    En el mundo de los deportes siempre se ha usado la estadística con el fin
-    de medir el rendimiento y la mejora de los deportistas y equipos durante el
-    periodo competitivo. En el volleyball español se emplean principalmente dos
+    En el voleibol español se emplean principalmente dos
     métodos para la toma de estadísticas de partidos según cuándo se realice:
     \begin{itemize}
         \item Toma de estadísticas en tiempo real: durante los partidos una o
@@ -382,7 +407,7 @@ hmargin=3cm
     2 problemas: la falta de tiempo y la iniciativa individual.
 
     Respecto a la falta de tiempo, es importante entender que el voleibol en
-    españa es un deporte minoritario. Además, un partido de voley puede durar
+    españa es un deporte minoritario. Además, un partido de voleibol puede durar
     entre 45 y 180 minutos según la categoría. El análisis del metraje y la
     toma de estadísticas puede multiplicar este tiempo por un factor de entre 3
     y 5 de manera habitual. Esto sumado a que la mayoría de entrenadores no
@@ -393,12 +418,12 @@ hmargin=3cm
 
     Adicionalmente, la mayoría de pabellones y clubes no cuentan con la
     infraestructura (cámaras, trípodes y espacio) necesaria para obtener
-    grabaciones de buena calidad que puedan ser fácilmente analizadas. La
-    mayoría de entrenadores que realizan la toma de estadísticas en diferido lo
-    hacen por iniciativa propia. Esto desincentiva la actividad, haciendo de la
-    toma de estadísticas en diferido un lujo que pueden permitirse sólo los
-    clubes con mayor poder adquisitivo para facilitar la infraestructura a sus
-    entrenadores.
+    grabaciones de buena calidad que puedan ser fácilmente analizadas. Por lo
+    que un gran porcentaje de entrenadores que realizan la toma de estadísticas
+    en diferido lo hacen por iniciativa propia. Esto desincentiva la actividad,
+    haciendo de la toma de estadísticas en diferido un lujo que pueden
+    permitirse sólo los clubes con mayor poder adquisitivo para facilitar la
+    infraestructura a sus entrenadores.
     
     
     \chapter{Objetivo}
@@ -412,6 +437,12 @@ hmargin=3cm
     recae sobre los entrenadores, especialmente en equipos no profesionales
     donde el tiempo y los recursos son escasos.
 
+    Dado que el estudio se trata de una primera aproximación a este problema,
+    el modelo se centra en el análisis y evaluación del gesto técnico de
+    colocación o armado. Se ha elegido esta acción por tratarse de la base de
+    todos los sistemas de juego de este deporte, además de ser la más
+    determinante para lograr la efectividad en el juego.
+
     Además, se pretende que esta herramienta sea adaptable a diferentes niveles de
     competición, considerando las limitaciones en la calidad de las grabaciones y
     la infraestructura de los clubes. Al facilitar la recopilación de estadísticas
@@ -420,9 +451,10 @@ hmargin=3cm
     oportunidades entre equipos con diferentes capacidades económicas.
 
 
-    \section{Análisis de datos}
+    \chapter{Análisis de datos}
+    \label{cahp:datos}
     Para la realización del trabajo, se han utilizado dos bases de datos que
-    etiquetan vídeos de volleyball profesional. La primera contiene 4830
+    etiquetan vídeos de voleibol profesional. La primera~\cite{dataset1} contiene 4830
     secuencias extraídas de 55 vídeos distintos, cada una compuesta de 41
     \textit{frames}. Para cada secuencia se etiqueta la acción realizada durante
     la secuencia, con uno de los siguientes valores: \verb!l-spike!,
@@ -441,7 +473,21 @@ hmargin=3cm
     involucrado en la acción principal, y \verb!generated! indica si el
     rectangulo fue automáticamente interpolado.
 
-    La segunda base de datos utiliza el mismo conjunto de videos y secuencias,
+    \begin{table}[H]
+        \begin{tabular}{@{}cc@{}}
+            \toprule
+            Acción & Num. Instancias\\
+            \midrule
+            Colocación    & 1277\\
+            Remate        & 1265\\
+            Pase          & 1627\\
+            Punto Ganador &  662\\
+            \bottomrule
+        \end{tabular}
+        \caption{Distribución de secuencias por gesto de la base de datos.}
+    \end{table}
+
+    La segunda base de datos~\cite{dataset2} utiliza el mismo conjunto de videos y secuencias,
     pero etiqueta la posición $x$ e $y$ del centro de la bola en cada frame de
     cada secuencia. Debido a esto, se puede combinar con la primera base de
     datos para obtener todos los datos que necesitamos. En los casos en los que
@@ -449,17 +495,27 @@ hmargin=3cm
     mueve demasiado rápido), esta base de datos etiqueta la localización
     estimada de la bola.
 
-    Ya que este trabajo está centrado en los pases, los datos de la primera base
+    Ya que este trabajo está centrado en la colocación, los datos de la primera base
     de datos se han filtrado a las secuencias con la clase \verb!r_set! o
-    \verb!l_set!. Esto reduce el número de secuencias etiquetadas a 1276. Cada
+    \verb!l_set!. Esto reduce el número de secuencias etiquetadas a 1277. Cada
     una de estas secuencias se ha etiquetado manualmente según si contiene un
     pase correcto o incorrecto. Se ha definido un pase correcto como aquel en el
     que la persona que realiza el pase toca la bola con la punta de los dedos,
     mientras que un pase incorrecto es aquel en el que la persona que realiza el
     pase no toca la bola o la toca con el antebrazo.
 
+    \chapter{Metodología}
+    \label{chap:metodologia}
+
+    \section{Oversampling y Undersampling}
+
+    \section{Clasificación de \textit{frames}}
+
     \chapter{Análisis de resultados}
     \label{chap:resultados}
+
+    \chapter{Trabajos futuros}
+    \label{chap:future}
 
     \chapter{Conclusiones}
     \label{chap:conclusion}
