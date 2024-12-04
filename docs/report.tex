@@ -453,7 +453,7 @@ hmargin=3cm
 
     \chapter{Análisis de datos}
     \label{cahp:datos}
-    Para la realización del trabajo, se han utilizado dos bases de datos que
+    Para la realización del proyecto se han utilizado dos bases de datos que
     etiquetan vídeos de voleibol profesional. La primera~\cite{dataset1} contiene 4830
     secuencias extraídas de 55 vídeos distintos, cada una compuesta de 41
     \textit{frames}. Para cada secuencia se etiqueta la acción realizada durante
@@ -492,13 +492,14 @@ hmargin=3cm
     cada secuencia. Debido a esto, se puede combinar con la primera base de
     datos para obtener todos los datos que necesitamos. En los casos en los que
     la bola no se puede ver claramente (ya sea por que está oculta o porque se
-    mueve demasiado rápido), esta base de datos etiqueta la localización
+    mueve demasiado rápido), la etiqueta corresponderá con la localización
     estimada de la bola.
 
-    Ya que este trabajo está centrado en la colocación, los datos de la primera base
-    de datos se han filtrado a las secuencias con la clase \verb!r_set! o
-    \verb!l_set!. Esto reduce el número de secuencias etiquetadas a 1277. Cada
-    una de estas secuencias se ha etiquetado manualmente según si contiene un
+    Ya que este trabajo está centrado en la colocación, los datos obtenidos de la primera base
+    de datos se han filtrado y reducido a las secuencias con la clase \verb!r_set! o
+    \verb!l_set!. Esto reduce el número de secuencias etiquetadas a 1277, un número 
+    mucho más manejable dentro del alcance de esta práctica. Cada
+    una de estas secuencias se ha etiquetado manualmente según su contenido de un
     pase correcto o incorrecto. Se ha definido un pase correcto como aquel en el
     que la persona que realiza el pase toca la bola con la punta de los dedos,
     mientras que un pase incorrecto es aquel en el que la persona que realiza el
