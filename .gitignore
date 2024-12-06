@@ -28,3 +28,6 @@ svg-inkscape/
 _markdown_report/
 *.swp
 report.pdf
+scripts/YOLO_detection/train
+scripts/YOLO_detection/test
+scripts/YOLO_detection/valid

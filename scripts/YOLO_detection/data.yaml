@@ -1,0 +1,7 @@
+path: C:\Users\zoeey\Documents\Universidad\4Curso\iao\final_volley\VoleyPassClasifier\scripts\YOLO_detection\
+train: ./train/images
+val: ./valid/images
+test: ./test/images
+
+nc: 1
+names: ['Volleyball']
