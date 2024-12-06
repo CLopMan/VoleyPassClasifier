@@ -19,8 +19,7 @@ random.seed(2003)
 random.shuffle(correct)
 random.shuffle(incorrect)
 
-correct = correct[:len(correct) * 7 // 10]
-
+correct = correct[: len(correct) * 7 // 10]
 print("correct")
 print(correct)
 print("incorrect")
@@ -29,6 +28,7 @@ print("correct:", len(correct))
 print("incorrect:", len(incorrect))
 
 videos = "data/videos"
+
 
 def copy_file(vid: tuple[int, int], j: int, folder: str, ty: str, root: str):
     shutil.copyfile(

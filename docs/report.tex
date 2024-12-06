@@ -201,7 +201,13 @@ hmargin=3cm
     numberstyle=\tiny,
     numberfirstline = false,
     breaklines=true,
-    xleftmargin=\parindent
+    xleftmargin=\parindent,
+    inputencoding = utf8,  % Input encoding
+    extendedchars = true,  % Extended ASCII
+    literate      =        % Support additional characters
+      {á}{{\'a}}1  {é}{{\'e}}1  {í}{{\'i}}1 {ó}{{\'o}}1  {ú}{{\'u}}1
+      {Á}{{\'A}}1  {É}{{\'E}}1  {Í}{{\'I}}1 {Ó}{{\'O}}1  {Ú}{{\'U}}1
+      {ñ}{{\~n}}1
 }
 
 \captionsetup[lstlisting]{font=small, labelsep=period}
@@ -534,9 +540,16 @@ hmargin=3cm
 
     Adicionalmente se ha creado una clase más denominada \textit{wait} para
     aquellos frames que no aporten información relativa al tipo de acción. Se
-    comprarán los resultados obtenidos empleando y sin emplear esta clase.
+    compararán los resultados obtenidos empleando y sin emplear esta clase.
 
-    \section{Oversampling y Undersampling}
+    \section{\textit{Oversampling} y \textit{Undersampling}}
+
+    Los datos cuentan con un desbalanceo muy fuerte hacia la clase positiva: tan
+    solo un $2.59\%$ de las instancias están etiquetadas como negativas. Debido
+    a esto, se ha decidido realizar tanto un \textit{oversampling} de la clase
+    minoritaria como un \textit{undersampling} de la clase mayoritaria. Para la
+    realización del \textit{undersampling}, se ha decidido eliminar un $30\%$ de
+    las instancias de la clase positiva, seleccionadas aleatoriamente.
 
     \section{Entrenamiento}
 
@@ -576,174 +589,19 @@ hmargin=3cm
     \phantomsection
     \section*{Código Python para añadir el tamaño de \textit{bounding box}}
     \label{mod_ball}
-
-    \begin{lstlisting}[language=Python]
-import os
-
-def modify_file(file_path, add_value=40):
-   # Leer el contenido original del archivo
-    with open(file_path, "r") as infile:
-        lines = infile.readlines()
-
-    # Sobrescribir el archivo con las lineas modificadas
-    with open(file_path, "w") as outfile:
-        for line in lines:
-            line = line.strip()  # Elimina espacios o saltos de linea
-            values = line.split()  # Divide la linea en valores separados por espacios
-
-            if len(values) >= 2:  # Asegurarse de que haya al menos dos valores
-                # Procesar los dos primeros valores
-                x = float(values[0]) / 1280
-                y = float(values[1]) / 720
-
-                w = float(add_value) / 1280
-                h = float(add_value) / 720
-
-                # Crear la nueva linea con los valores procesados y el valor annadido
-                new_line = f"0 {x:.6f} {y:.6f} {w:.6f} {h:.6f}\n"
-                outfile.write(new_line)
-
-def process_directories(base_directory, add_value=20):
-     for root, dirs, files in os.walk(base_directory):
-        for file in files:
-            # Procesar solo los archivos de texto
-            if file.endswith(".txt"):
-                file_path = os.path.join(root, file)
-                print(f"Procesando archivo: {file_path}")
-                modify_file(file_path, add_value)
-
-
-base_directory = "."
-
-# Valor que se annadira al final de cada linea
-add_value = 20
-
-# Procesar todos los directorios y archivos
-process_directories(base_directory, add_value)
-
-print("Procesamiento completado.")
-    \end{lstlisting}
+    \lstinputlisting[language=Python]{../scripts/process_ball_anotations.py}
 
     \phantomsection
     \section*{Código Python para la particición de las anotaciones en ficheros}
-    \begin{lstlisting}[language=Python]
-import os
-
-def process_files_and_split_lines(base_directory):
-    for root, dirs, files in os.walk(base_directory):
-        carpeta = os.path.basename(root)  # Nombre de la carpeta actual
-        file_index = 1  # Indice del archivo en la carpeta
-        
-        for file in files:
-            sec = os.path.splitext(file)[0]
-            if file.endswith(".txt"):  # Procesar solo archivos .txt
-                file_path = os.path.join(root, file)
-                
-                # Leer el contenido del archivo
-                with open(file_path, "r") as infile:
-                    lines = infile.readlines()
-                
-                # Escribir cada linea en un archivo separado
-                for i, line in enumerate(lines):
-                    # Crear el nombre del nuevo archivo
-                    new_filename = f"{carpeta}_{sec}_{file_index}.txt"
-                    output_directory = os.path.join(base_directory, "output")
-                    os.makedirs(output_directory, exist_ok=True)
-                    new_filepath = os.path.join(output_directory, new_filename)
-
-                    
-                    # Escribir la linea en el archivo correspondiente
-                    with open(new_filepath, "w") as outfile:
-                        outfile.write(line.strip() + "\n")
-                    
-                    print(f"Linea {i+1} del archivo '{file}' escrita en '{new_filename}'")
-                
-                file_index += 1  # Incrementar el indice del archivo en la carpeta
-
-base_directory = "."
-
-# Procesar los archivos
-process_files_and_split_lines(base_directory)
-
-print("Procesamiento completado.")
-
-    \end{lstlisting}
+    \lstinputlisting[language=Python]{../scripts/split_lines.py}
 
     \phantomsection
     \section*{Código bash para el preclasificado}
     \label{preclasificado}
-
-    \begin{lstlisting}[language=bash]
-for i in $(ls . | grep -v "generate");
-do
-    touch $i/annotations-2.txt
-    printf "" > "$i/annotations-2.txt"
-    for j in $(ls $i | grep -v ".txt");
-    do
-        printf "$j +\n" >> "$i/annotations-2.txt"
-    done
-done
-    \end{lstlisting}
+    \lstinputlisting[language=bash]{../scripts/preclasificado.sh}
 
     \phantomsection
     \section*{Código Python para la división por carpetas}
     \label{div_carpetas}
-
-    \begin{lstlisting}[language=Python]
-import shutil
-import random
-
-correct: list[tuple[int, int]] = []
-incorrect: list[tuple[int, int]] = []
-
-for i in range(55):
-    with open(f"data/{i}.txt") as f:
-        for line in f.read().split("\n")[:-1]:
-            split = line.split(" ")
-            seq, val = split
-            if val == "+":
-                correct.append((i, int(seq)))
-            else:
-                incorrect.append((i, int(seq)))
-
-
-print("correct")
-print(correct)
-print("incorrect")
-print(incorrect)
-print("correct:", len(correct))
-print("incorrect:", len(incorrect))
-
-videos = "data/videos"
-
-random.seed(2003)
-random.shuffle(correct)
-random.shuffle(incorrect)
-
-def copy_file(vid: tuple[int, int], j: int, folder: str, ty: str, root: str):
-    shutil.copyfile(
-        f"{videos}/{vid[0]}/{vid[1]}/{vid[1] + j}.jpg",
-        f"scripts/{root}/data_folder/{folder}/{ty}/{ty}_vid_{vid[0]}_seq_{vid[1]}_frame_{vid[1] + j}.jpg",
-    )
-
-def copy(ty: str, data: list[tuple[int, int]]):
-    for i, vid in enumerate(data):
-        if i / len(data) < 0.7:
-            folder = "train"
-        else:
-            folder = "test"
-        for j in range(-10, 10):
-            # 2 class model
-            copy_file(vid, j, folder, ty, "YOLO_2class")
-            # 3 class model
-            if -2 <= j <= 2:
-                copy_file(vid, j, folder, ty, "YOLO_3class")
-            else:
-                copy_file(vid, j, folder, "waiting", "YOLO_3class")
-
-
-copy("correct", correct)
-copy("incorrect", incorrect)
-
-    \end{lstlisting}
+    \lstinputlisting[language=Python]{../scripts/split_videos.py}
 \end{document}
