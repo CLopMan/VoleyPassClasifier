@@ -508,10 +508,11 @@ hmargin=3cm
     \section{Filtrado de datos y etiquetado}
 
     Este proyecto se centrará en uno de los gestos técnicos, la colocación o
-    armado, con el fin de reducir el alcance de la práctica. Los datos
-    obtenidos de la primera base de datos han sido filtrados y reducidos a las
-    secuencias de las clases \verb!r_set! o \verb!l_set!. Esto reduce el número
-    de secuencias a 1276.
+    armado, con el fin de reducir el alcance de la práctica. Los datos obtenidos
+    de la primera base de datos han sido filtrados y reducidos a las secuencias
+    de las clases \verb!r_set! o \verb!l_set!, utilizando un programa de
+    \verb!python! (ver \ref{filtrado_script}). Esto reduce el número de
+    secuencias a 1276.
 
     Cada secuencia ha sido etiquetada manualmente en las clases positiva
     (representada con el símbolo \verb!+!) y negativa (representada con el
@@ -585,6 +586,11 @@ hmargin=3cm
     % Si tu trabajo incluye anexos, puedes descomentar las siguientes lineas
     \chapter*{Anexo}
     \pagenumbering{gobble} % Las páginas de los anexos no se numeran
+
+    \phantomsection
+    \section*{Código Python para filtrar la base de datos de acciones}
+    \label{mod_ball}
+    \lstinputlisting[language=Python]{../scripts/filter.py}
 
     \phantomsection
     \section*{Código Python para añadir el tamaño de \textit{bounding box}}
