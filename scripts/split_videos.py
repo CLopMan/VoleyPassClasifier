@@ -15,6 +15,12 @@ for i in range(55):
                 incorrect.append((i, int(seq)))
 
 
+random.seed(2003)
+random.shuffle(correct)
+random.shuffle(incorrect)
+
+correct = correct[:len(correct) * 7 // 10]
+
 print("correct")
 print(correct)
 print("incorrect")
@@ -24,15 +30,12 @@ print("incorrect:", len(incorrect))
 
 videos = "data/videos"
 
-random.seed(2003)
-random.shuffle(correct)
-random.shuffle(incorrect)
-
 def copy_file(vid: tuple[int, int], j: int, folder: str, ty: str, root: str):
     shutil.copyfile(
         f"{videos}/{vid[0]}/{vid[1]}/{vid[1] + j}.jpg",
         f"scripts/{root}/data_folder/{folder}/{ty}/{ty}_vid_{vid[0]}_seq_{vid[1]}_frame_{vid[1] + j}.jpg",
     )
+
 
 def copy(ty: str, data: list[tuple[int, int]]):
     for i, vid in enumerate(data):
