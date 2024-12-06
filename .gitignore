@@ -28,3 +28,6 @@ svg-inkscape/
 _markdown_report/
 *.swp
 report.pdf
+
+data/videos/*
+scripts/**/data_folder/*
