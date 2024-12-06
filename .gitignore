@@ -31,3 +31,7 @@ report.pdf
 scripts/YOLO_detection/train
 scripts/YOLO_detection/test
 scripts/YOLO_detection/valid
+data/videos/
+scripts/**/data_folder/
+venv/
+runs/
