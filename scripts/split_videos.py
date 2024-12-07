@@ -19,7 +19,7 @@ random.seed(2003)
 random.shuffle(correct)
 random.shuffle(incorrect)
 
-correct = correct[: len(correct) * 7 // 10]
+correct = correct[: len(correct) // 2]
 print("correct")
 print(correct)
 print("incorrect")
@@ -30,14 +30,23 @@ print("incorrect:", len(incorrect))
 videos = "data/videos"
 
 
-def copy_file(vid: tuple[int, int], j: int, folder: str, ty: str, root: str):
+def copy_file(
+    vid: tuple[int, int], j: int, folder: str, incorrect: bool, ty: str, root: str
+):
     shutil.copyfile(
         f"{videos}/{vid[0]}/{vid[1]}/{vid[1] + j}.jpg",
         f"scripts/{root}/data_folder/{folder}/{ty}/{ty}_vid_{vid[0]}_seq_{vid[1]}_frame_{vid[1] + j}.jpg",
     )
+    if incorrect:
+        for i in range(4):
+            shutil.copyfile(
+                f"{videos}/oversampling/new{i}_incorrect_vid_{vid[0]}_seq_{vid[1]}_frame_{vid[1] + j}.jpg",
+                f"scripts/{root}/data_folder/{folder}/{ty}/new{i}_{ty}_vid_{vid[0]}_seq_{vid[1]}_frame_{vid[1] + j}.jpg",
+            )
 
 
 def copy(ty: str, data: list[tuple[int, int]]):
+    incorrect = ty == "incorrect"
     for i, vid in enumerate(data):
         if i / len(data) < 0.7:
             folder = "train"
@@ -45,12 +54,12 @@ def copy(ty: str, data: list[tuple[int, int]]):
             folder = "test"
         for j in range(-10, 10):
             # 2 class model
-            copy_file(vid, j, folder, ty, "YOLO_2class")
+            copy_file(vid, j, folder, incorrect, ty, "YOLO_2class")
             # 3 class model
             if -2 <= j <= 2:
-                copy_file(vid, j, folder, ty, "YOLO_3class")
+                copy_file(vid, j, folder, incorrect, ty, "YOLO_3class")
             else:
-                copy_file(vid, j, folder, "waiting", "YOLO_3class")
+                copy_file(vid, j, folder, incorrect, "waiting", "YOLO_3class")
 
 
 copy("correct", correct)
