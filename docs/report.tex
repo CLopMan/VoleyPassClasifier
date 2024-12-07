@@ -503,7 +503,7 @@ hmargin=3cm
 
     \chapter{Metodología}
     \label{chap:metodologia}
-    En este capítulo se describirán los difentes procesos llevados a cabo para la construcción y evaluación del modelo.
+    En este capítulo se describirán los difentes procesos llevados a cabo para la construcción y evaluación del modelo. Todos los \textit{scripts} mencionados han sido incluídos en el \hyperref[anexo]{Anexo}.
 
     \section{Filtrado de datos y etiquetado}
 
@@ -511,7 +511,7 @@ hmargin=3cm
     armado, con el fin de reducir el alcance de la práctica. Los datos obtenidos
     de la primera base de datos han sido filtrados y reducidos a las secuencias
     de las clases \verb!r_set! o \verb!l_set!, utilizando un programa de
-    \verb!python! (ver \ref{filtrado_script}). Esto reduce el número de
+    \verb!python!. Esto reduce el número de
     secuencias a 1276.
 
     Cada secuencia ha sido etiquetada manualmente en las clases positiva
@@ -531,13 +531,13 @@ hmargin=3cm
     \ref{preclasificado}) para realizar un preclasificado de las secuencias.
     Además, ha sido necesario modificar la segunda base de datos para incluir
     el tamaño de la \textit{bounding box} para cada balón. Esto último se ha
-    hecho a través de un programa de \texttt{Python} (ver \ref{mod_ball}). Se ha escogido un 
+    hecho a través de un programa de \texttt{Python}. Se ha escogido un 
     tamaño genérico igual para todas las instancias ($20px\times20px$).
 
     Las secuencias se han separado en dos carpetas, cada una conteniendo las
     imágenes de cada una de las clases. Adicionalmente, para cada carpeta se
     han dividido las secuencias en subconjuntos de entrenamiento y evaluación.
-    Para esto se ha usado un programa en \texttt{Python} (ver \ref{div_carpetas}).
+    Para esto se ha usado un programa en \texttt{Python}.
 
     Adicionalmente se ha creado una clase más denominada \textit{wait} para
     aquellos frames que no aporten información relativa al tipo de acción. Se
@@ -584,12 +584,14 @@ hmargin=3cm
     %----------
 
     % Si tu trabajo incluye anexos, puedes descomentar las siguientes lineas
+    \phantomsection
     \chapter*{Anexo}
+    \label{anexo}
     \pagenumbering{gobble} % Las páginas de los anexos no se numeran
 
     \phantomsection
     \section*{Código Python para filtrar la base de datos de acciones}
-    \label{mod_ball}
+    \label{filtrado_script}
     \lstinputlisting[language=Python]{../scripts/filter.py}
 
     \phantomsection
