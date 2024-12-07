@@ -1,12 +1,6 @@
 import os
 
 def process_files_and_split_lines(base_directory):
-    """
-    Recorre un conjunto de directorios, toma cada archivo, y escribe
-    cada línea del archivo en un nuevo archivo llamado 'carpeta_N.txt'.
-
-    :param base_directory: Ruta del directorio base donde se encuentran los archivos.
-    """
     for root, dirs, files in os.walk(base_directory):
         carpeta = os.path.basename(root)  # Nombre de la carpeta actual
         file_index = 1  # Índice del archivo en la carpeta
@@ -37,7 +31,7 @@ def process_files_and_split_lines(base_directory):
                 
                 file_index += 1  # Incrementar el índice del archivo en la carpeta
 
-# Ruta del directorio base (cámbiala por tu ruta)
+
 base_directory = "."
 
 # Procesar los archivos

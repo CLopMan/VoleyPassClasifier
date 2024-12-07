@@ -11,7 +11,7 @@ def modify_file(file_path, add_value=20):
             line = line.strip()  # Elimina espacios o saltos de línea
             values = line.split()  # Divide la línea en valores separados por espacios
             
-            if len(values) >= 2:  # Asegurarse de que haya al menos dos valores
+            if len(values) >= 2:
                 # Procesar los dos primeros valores
                 x = float(values[0]) / 1280
                 y = float(values[1]) / 720
@@ -26,7 +26,7 @@ def modify_file(file_path, add_value=20):
 def process_directories(base_directory, add_value=20):
      for root, dirs, files in os.walk(base_directory):
         for file in files:
-            # Procesar solo los archivos de texto (opcional: ajustar la extensión si es necesario)
+            
             if file.endswith(".txt"):
                 file_path = os.path.join(root, file)
                 print(f"Procesando archivo: {file_path}")
