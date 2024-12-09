@@ -552,6 +552,72 @@ hmargin=3cm
     realización del \textit{undersampling}, se ha decidido eliminar un $30\%$ de
     las instancias de la clase positiva, seleccionadas aleatoriamente.
 
+    Para el oversampling se ha usado la librería de python Albumentations~\cite(albumentations) que
+    permite realizar aumento de imágenes para crear nuevas instancias. Esta librería utiliza redes neuronales
+    profundas para aplicar transformaciones a una imagen dada. 
+    Se ha realizado un código python que toma todas las imágenes de una carpeta y aplica a cada una serie de 
+    transformaciones. Esto se logra generando un número aleatorio entre uno y nueve que se inserta en una 
+    \textit{pipeline} que utiliza el comando de Albumentations \textit{SomeOf}, que contiene una lista de veinte 
+    posibles transformaciones de las cuales se aplicará el número obtenido previamente. Se ha decidido 
+    castigar números altos de transformaciones ya que realizar demasiadas de estas puede llevar a obtener una 
+    imagen demasiado distorsionada. Esto se ha realizado asignando a cada transmación cierta probabilidad de 
+    aplicarse, siendo 1 que siempre se aplica y 0 que nunca. Cuando el número de transformaciones elegido es
+    de 1 a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
+
+    A pesar de existir un gran número de transformaciones en la librería Albumentations se ha decidido usar solo 
+    20 de estas. Esto se debe a que se ha considerado que el resto llevarían a instancias que podrían ensuciar el 
+    \textit{dataset} al no ser imagenes que se obtienen normalmente en el voleibol, como transformaciones de colores 
+    invertidos o de simulación de nieve. 
+    Las transformaciones seleccionadas finalmente son las siguientes:
+    \begin{enumerate}
+        \item \textbf{CLAHE:} esta transformación, cuyas siglas significan \textit{Contrast Limited Adaptive Histogram
+         Equalization}, mejora el contraste de una imagen. Se ha elegido debido a que pueden darse instancias en las 
+         que debido a los ajustes de una cámara las imágenes tengan diferentes contrastes.
+        \item \textbf{ChromaticAberration:} la transformación simula una cámara que no ha enfocado todos los colores
+         al mismo punto por lo que algunos de los colores aparecen desfasados de otros, en este caso el azul y rojo 
+         están desfasados del verde.  
+        \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el tono, que pueden cambiar 
+        dependiendo de factores como la iluminación. Por esto se ha considerado una transformación posible aunque el 
+        rango de transformación del tono definido es muy pequeño ya que se quería simular cambios ligeros por iluminación o 
+        calibración de la cámara no camabios grandes no comunes.
+        \item \textbf{Downscale:} reduce la calidad de la imagen reduciendo su tamaño y volviendo a aumentarlo. 
+        Variaciones de calidad de una imagen dependen de la cámara usada por lo que se ha considerado una situación 
+        posible en una instancia obtenida de manera natural.
+        \item \textbf{Emboss:} realza la imagen destacando los bordes de los objetos y creando una textura 3D, efecto 
+        obtenible con los ajustes de una cámara.
+        \item \textbf{Equalize:} ecualiza el histograma de la imagen, ajustando su contraste para que los diferentes 
+        tonos de grises tengan el mismo número de pixeles. Este es otro efecto que puede aparecer naturalmente debido 
+        a ajustes de la cámara.
+        \item \textbf{GaussNoise:} inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen, sobretodo
+        si no es de mucha calidad, puede tener ruido naturalmente, esta transformación imita esto.
+        \item \textbf{HorizontalFlip:} refleja la foto sobre su eje vertical, creando nuevas instancias que son iguales a 
+        las originales pero reflejadas. 
+        \item \textbf{HueSaturationValue:} transformación similar a ColorJitter que a diferencia de esta no modifica el 
+        contraste, solo el valor, equivalente al brillo; la saturación y el tono.
+        \item \textbf{ISONoise:} crea ruido que simula el ruido creado por diferentes ajustes de exposición de una cámara.
+        Simula los dos componentes principales del ruido ISO: cambios aleatorios en el tono de los colores y variaciones 
+        aleatorias en intensidad de los pixeles.
+        \item \textbf{ImageCompression:} decrementa la calidad de la imagen comprimiendola a un formato "jpeg". Simula casos
+        en los que las imagenes son de peor calidad.
+        \item \textbf{Morphological:} aumenta el grosor de zonas blancas de la imagen, simulando una mayor iluminazión de la zona. 
+        \item \textbf{PlanckianJitter:} simula variaciones de temperatura de la luz en una imagen que en este caso sería el 
+        tono de las luces de la pista.
+        \item \textbf{Posterize:} reduce el número de bits para cada color en una imagen. El efecto final es de una imagen que
+        ha perdido calidad y se han unificado algunos colores.
+        \item \textbf{RGBShift:} la transformación modifica aleatoriamente e individualmente los canales RGB de la imagen.
+        El rango de modificación que se ha definido es pequeño ya que solo se busca obtener imagenes con ligeras variaciones
+        que podrían ser probocadas por el tipo de luz o por la cámara usada.
+        \item \textbf{RandomBrightnessContrast:} cambia el brillo y contraste de la imagen, creando instancias de como sería 
+        la imagen en otras condiciones lumínicas.
+        \item \textbf{RandomGamma:} similar a la transformación anterior pero modificando el Gamma. Con esto se asegura que 
+        aunque cambie el brillo la relación entre claros y oscuros se mantendrá.
+        \item \textbf{RandomToneCurve:} manipula la curva del tono cambiando la relación entre las zonas oscuras y las claras 
+        de la imagen. Simula diferentes intensidades de iluminación de la pista.
+        \item \textbf{RingingOvershoot:} hace borrosos los limites de los objetos de una imagen. En este caso se aplica porque
+        simula como sería una imagen si la cámara estuviera desenfocada.
+        \item \textbf{Sharpen:} utiliza interpolado para "afilar" la imagen. Hace que los bordes sean más pronunciados pero como 
+        efecto secundario lleva a que se pierda calidad de la imagen.
+    \end{enumerate}
     \section{Entrenamiento}
 
     \section{Evaluación}
