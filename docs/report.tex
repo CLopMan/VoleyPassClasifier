@@ -371,9 +371,30 @@ hmargin=3cm
 
     \chapter{Estado del arte}
     \label{chap:estadoarte}
+
     \section{Reconocimiento de acciones y objetos}
-    El área de la visión artificial se ha visto desarrollada en gran manera en los últimos años gracias al desarrollo del deep learning. El deep learning simula el razonamiento del cerebro humano, permitiendo a varias capas computacionales procesar información. Esto lleva a una captura de patrones y estructuras mucho más efectiva, sobre todo en áreas como el reconocimiento de imágenes. Permite analizar inmensas cantidades de imágenes para encontrar patrones que permitan la clasificación o detección de objetos, tareas de la visión artificial en las que se va a centrar este trabajo.
-    En específico, se va a utilizar la familia de algoritmos YOLO, basados en el tipo de deep learning conocido como redes neuronales convolucionales. YOLO, o You Only Look Once, destaca por su rápidez aun manteniendo un alto grado de precisión, cualidad obtenida gracias a su funcionamiento único de detección en un solo paso. Los algoritmos de detección de objetos suelen dividirse en dos pasos: reconocimiento de objetos y clasificación de estos. La realización de estos dos pasos requiere de un tiempo y poder computacional adicional, siendo estos siempre secuenciale. YOLO, sin embargo, cuenta con la habilidad de realizar el reconocimiento y clasificación al mismo tiempo, lo cual lo determina como una de las mejores opciones en tareas de reconocimiento en tiempo real. Es por esto junto con la facilidad de entrenamiento y uso que proporciona ultralystics que se decide la utilización de esta herramienta.
+    El área de la visión artificial se ha visto desarrollada en gran manera en
+    los últimos años gracias al desarrollo del deep learning. El deep learning
+    simula el razonamiento del cerebro humano, permitiendo a varias capas
+    computacionales procesar información. Esto lleva a una captura de patrones
+    y estructuras mucho más efectiva, sobre todo en áreas como el
+    reconocimiento de imágenes. Permite analizar inmensas cantidades de
+    imágenes para encontrar patrones que permitan la clasificación o detección
+    de objetos, tareas de la visión artificial en las que se va a centrar este
+    trabajo.  En específico, se va a utilizar la familia de algoritmos YOLO,
+    basados en el tipo de deep learning conocido como redes neuronales
+    convolucionales. YOLO, o You Only Look Once, destaca por su rápidez aun
+    manteniendo un alto grado de precisión, cualidad obtenida gracias a su
+    funcionamiento único de detección en un solo paso~\cite{JIANG20221066}. Los algoritmos de
+    detección de objetos suelen dividirse en dos pasos: reconocimiento de
+    objetos y clasificación de estos. La realización de estos dos pasos
+    requiere de un tiempo y poder computacional adicional, siendo estos siempre
+    secuenciale. YOLO, sin embargo, cuenta con la habilidad de realizar el
+    reconocimiento y clasificación al mismo tiempo, lo cual lo determina como
+    una de las mejores opciones en tareas de reconocimiento en tiempo real. Es
+    por esto junto con la facilidad de entrenamiento y uso que proporciona
+    ultralystics que se decide la utilización de esta herramienta.
+
     \section{La IA en el deporte}
     La inteligencia aritificial ha tenido una gran evolución en los últimos
     años, expandiéndo su uso a diferentes áreas nunca antes imaginadas. El
@@ -381,11 +402,16 @@ hmargin=3cm
     gran potencial para el la comprensión profunda del rendimiento
     deportivo~\cite{ia-sport}. Algunos ejemplos de su uso son el análisis de
     imágenes 3D para la mejora del rendimiento deportivo~\cite{analysis3d} o la
-    planificación de caras~\cite{wl}. Adicionalmente también existen modelos
-    entrenados con la capacidad de reconocer diferentes acciones del juego,
-    destacando el estudio realizado para el diario \textit{Multimodal
-    Technologies and Interaction}~\cite{wearable} para reconocer los diferentes
-    gestos a través de sensores de tipo \textit{wearable}.
+    planificación de cargas~\cite{wl}. 
+
+    En cuanto al uso de IA en el voleibol, existen modelos con la capacidad de
+    reconocer diferentes acciones del juego, destacando el estudio realizado
+    para el diario \textit{Multimodal Technologies and
+    Interaction}~\cite{wearable} para reconocer los diferentes gestos a través
+    de sensores de tipo \textit{wearable}. Adicionalmente, también existen
+    otras aplicaciones como SAETA~\cite{SAETA}, un modelo desarrollado por
+    Javier Vales-Aloson et. al. para  la asistencia a entrenadores y atletas.
+
 
     Sin embargo, el análisis deportivo de estadísticas sigue siendo una
     actividad hecha manualmente donde la inteligencia artificial puede tomar un
@@ -481,10 +507,11 @@ hmargin=3cm
 
     \chapter{Análisis de datos}
     \label{cahp:datos}
-    Para la realización del proyecto se han utilizado dos bases de datos que
-    etiquetan vídeos de voleibol profesional. La primera~\cite{dataset1} contiene 4830
-    secuencias extraídas de 55 vídeos distintos, cada una compuesta de 41
-    \textit{frames}. Para cada secuencia se etiqueta la acción realizada durante
+    Para la realización del proyecto se han utilizado tres conjuntos de datos.
+    El primero cuenta con 4835 secuencias extraídas de 55 vídeos
+    de partidos de voleibol profesional. Cada secuencia está compuesta de 41
+    frames~\cite{dataset1}. 
+    Para cada secuencia se etiqueta la acción realizada durante
     la secuencia, con uno de los siguientes valores: \verb!l-spike!,
     \verb!r_spike!, \verb!r-pass!, \verb!l_winpoint!, \verb!l_set!,
     \verb!l-pass!, \verb!r_winpoint! o \verb!r_set!. Además, también se etiqueta
@@ -512,7 +539,7 @@ hmargin=3cm
             Punto Ganador &  662\\
             \bottomrule
         \end{tabular}
-        \caption{Distribución de secuencias por gesto de la base de datos.}
+        \caption{Distribución de secuencias por gesto para el primer conjunto de datos.}
     \end{table}
 
     La segunda base de datos~\cite{dataset2} utiliza el mismo conjunto de videos y secuencias,
@@ -522,6 +549,13 @@ hmargin=3cm
     la bola no se puede ver claramente (ya sea por que está oculta o porque se
     mueve demasiado rápido), la etiqueta corresponderá con la localización
     estimada de la bola.
+
+    Finalmente, el tercer conjunto de datos cuenta con 1380 imágenes en las que
+    se muestra un balón de voleibol en diferentes escenarios y
+    contextos~\cite{dataset3}. Este dataset permite un entrenamiento breve y de
+    gran variedad de imágenes con el fin de construir modelos capaces de
+    reconocer un balón de voleibol en contextos donde la luminosidad o calidad
+    de imágenes no estén a la altura de vídeos profesionales.
 
     \chapter{Metodología}
     \label{chap:metodologia}
@@ -574,82 +608,148 @@ hmargin=3cm
     realización del \textit{undersampling}, se ha decidido eliminar un $30\%$ de
     las instancias de la clase positiva, seleccionadas aleatoriamente.
 
-    Para el oversampling se ha usado la librería de python Albumentations~\cite(albumentations) que
-    permite realizar aumento de imágenes para crear nuevas instancias. Esta librería utiliza redes neuronales
-    profundas para aplicar transformaciones a una imagen dada. 
-    Se ha realizado un código python que toma todas las imágenes de una carpeta y aplica a cada una serie de 
-    transformaciones. Esto se logra generando un número aleatorio entre uno y nueve que se inserta en una 
-    \textit{pipeline} que utiliza el comando de Albumentations \textit{SomeOf}, que contiene una lista de veinte 
-    posibles transformaciones de las cuales se aplicará el número obtenido previamente. Se ha decidido 
-    castigar números altos de transformaciones ya que realizar demasiadas de estas puede llevar a obtener una 
-    imagen demasiado distorsionada. Esto se ha realizado asignando a cada transmación cierta probabilidad de 
-    aplicarse, siendo 1 que siempre se aplica y 0 que nunca. Cuando el número de transformaciones elegido es
-    de 1 a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
+    Para el oversampling se ha usado la librería de python
+    Albumentations~\cite(albumentations) que permite realizar aumento de
+    imágenes para crear nuevas instancias. Esta librería utiliza redes
+    neuronales profundas para aplicar transformaciones a una imagen dada.  Se
+    ha realizado un código python que toma todas las imágenes de una carpeta y
+    aplica a cada una serie de transformaciones. Esto se logra generando un
+    número aleatorio entre uno y nueve que se inserta en una \textit{pipeline}
+    que utiliza el comando de Albumentations \textit{SomeOf}, que contiene una
+    lista de veinte posibles transformaciones de las cuales se aplicará el
+    número obtenido previamente. Se ha decidido castigar números altos de
+    transformaciones ya que realizar demasiadas de estas puede llevar a obtener
+    una imagen demasiado distorsionada. Esto se ha realizado asignando a cada
+    transmación cierta probabilidad de aplicarse, siendo 1 que siempre se
+    aplica y 0 que nunca. Cuando el número de transformaciones elegido es de 1
+    a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
 
-    A pesar de existir un gran número de transformaciones en la librería Albumentations se ha decidido usar solo 
-    20 de estas. Esto se debe a que se ha considerado que el resto llevarían a instancias que podrían ensuciar el 
-    \textit{dataset} al no ser imagenes que se obtienen normalmente en el voleibol, como transformaciones de colores 
-    invertidos o de simulación de nieve. 
-    Las transformaciones seleccionadas finalmente son las siguientes:
-    \begin{enumerate}
-        \item \textbf{CLAHE:} esta transformación, cuyas siglas significan \textit{Contrast Limited Adaptive Histogram
-         Equalization}, mejora el contraste de una imagen. Se ha elegido debido a que pueden darse instancias en las 
-         que debido a los ajustes de una cámara las imágenes tengan diferentes contrastes.
-        \item \textbf{ChromaticAberration:} la transformación simula una cámara que no ha enfocado todos los colores
-         al mismo punto por lo que algunos de los colores aparecen desfasados de otros, en este caso el azul y rojo 
-         están desfasados del verde.  
-        \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el tono, que pueden cambiar 
-        dependiendo de factores como la iluminación. Por esto se ha considerado una transformación posible aunque el 
-        rango de transformación del tono definido es muy pequeño ya que se quería simular cambios ligeros por iluminación o 
-        calibración de la cámara no camabios grandes no comunes.
-        \item \textbf{Downscale:} reduce la calidad de la imagen reduciendo su tamaño y volviendo a aumentarlo. 
-        Variaciones de calidad de una imagen dependen de la cámara usada por lo que se ha considerado una situación 
-        posible en una instancia obtenida de manera natural.
-        \item \textbf{Emboss:} realza la imagen destacando los bordes de los objetos y creando una textura 3D, efecto 
-        obtenible con los ajustes de una cámara.
-        \item \textbf{Equalize:} ecualiza el histograma de la imagen, ajustando su contraste para que los diferentes 
-        tonos de grises tengan el mismo número de pixeles. Este es otro efecto que puede aparecer naturalmente debido 
-        a ajustes de la cámara.
-        \item \textbf{GaussNoise:} inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen, sobretodo
-        si no es de mucha calidad, puede tener ruido naturalmente, esta transformación imita esto.
-        \item \textbf{HorizontalFlip:} refleja la foto sobre su eje vertical, creando nuevas instancias que son iguales a 
-        las originales pero reflejadas. 
-        \item \textbf{HueSaturationValue:} transformación similar a ColorJitter que a diferencia de esta no modifica el 
-        contraste, solo el valor, equivalente al brillo; la saturación y el tono.
-        \item \textbf{ISONoise:} crea ruido que simula el ruido creado por diferentes ajustes de exposición de una cámara.
-        Simula los dos componentes principales del ruido ISO: cambios aleatorios en el tono de los colores y variaciones 
-        aleatorias en intensidad de los pixeles.
-        \item \textbf{ImageCompression:} decrementa la calidad de la imagen comprimiendola a un formato "jpeg". Simula casos
-        en los que las imagenes son de peor calidad.
-        \item \textbf{Morphological:} aumenta el grosor de zonas blancas de la imagen, simulando una mayor iluminazión de la zona. 
-        \item \textbf{PlanckianJitter:} simula variaciones de temperatura de la luz en una imagen que en este caso sería el 
-        tono de las luces de la pista.
-        \item \textbf{Posterize:} reduce el número de bits para cada color en una imagen. El efecto final es de una imagen que
-        ha perdido calidad y se han unificado algunos colores.
-        \item \textbf{RGBShift:} la transformación modifica aleatoriamente e individualmente los canales RGB de la imagen.
-        El rango de modificación que se ha definido es pequeño ya que solo se busca obtener imagenes con ligeras variaciones
-        que podrían ser probocadas por el tipo de luz o por la cámara usada.
-        \item \textbf{RandomBrightnessContrast:} cambia el brillo y contraste de la imagen, creando instancias de como sería 
-        la imagen en otras condiciones lumínicas.
-        \item \textbf{RandomGamma:} similar a la transformación anterior pero modificando el Gamma. Con esto se asegura que 
-        aunque cambie el brillo la relación entre claros y oscuros se mantendrá.
-        \item \textbf{RandomToneCurve:} manipula la curva del tono cambiando la relación entre las zonas oscuras y las claras 
-        de la imagen. Simula diferentes intensidades de iluminación de la pista.
-        \item \textbf{RingingOvershoot:} hace borrosos los limites de los objetos de una imagen. En este caso se aplica porque
-        simula como sería una imagen si la cámara estuviera desenfocada.
-        \item \textbf{Sharpen:} utiliza interpolado para "afilar" la imagen. Hace que los bordes sean más pronunciados pero como 
-        efecto secundario lleva a que se pierda calidad de la imagen.
+    A pesar de existir un gran número de transformaciones en la librería
+    Albumentations se ha decidido usar solo 20 de estas. Esto se debe a que se
+    ha considerado que el resto llevarían a instancias que podrían ensuciar el
+    \textit{dataset} al no ser imagenes que se obtienen normalmente en el
+    voleibol, como transformaciones de colores invertidos o de simulación de
+    nieve.  Las transformaciones seleccionadas finalmente son las siguientes:
+
+    \begin{enumerate} \item \textbf{CLAHE:} esta transformación, cuyas siglas
+    significan \textit{Contrast Limited Adaptive Histogram Equalization},
+    mejora el contraste de una imagen. Se ha elegido debido a que pueden darse
+    instancias en las que debido a los ajustes de una cámara las imágenes
+    tengan diferentes contrastes.
+    \item \textbf{ChromaticAberration:} la
+    transformación simula una cámara que no ha enfocado todos los colores al
+    mismo punto por lo que algunos de los colores aparecen desfasados de otros,
+    en este caso el azul y rojo están desfasados del verde.
+    \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el
+    tono, que pueden cambiar dependiendo de factores como la iluminación. Por
+    esto se ha considerado una transformación posible aunque el rango de
+    transformación del tono definido es muy pequeño ya que se quería simular
+    cambios ligeros por iluminación o calibración de la cámara no camabios
+    grandes no comunes.
+    \item \textbf{Downscale:} reduce la calidad de la
+    imagen reduciendo su tamaño y volviendo a aumentarlo.  Variaciones de
+    calidad de una imagen dependen de la cámara usada por lo que se ha
+    considerado una situación posible en una instancia obtenida de manera
+    natural.
+    \item \textbf{Emboss:} realza la imagen destacando los bordes de
+    los objetos y creando una textura 3D, efecto obtenible con los ajustes de
+    una cámara.
+    \item \textbf{Equalize:} ecualiza el histograma de la imagen,
+    ajustando su contraste para que los diferentes tonos de grises tengan el
+    mismo número de pixeles. Este es otro efecto que puede aparecer
+    naturalmente debido a ajustes de la cámara.
+    \item \textbf{GaussNoise:}
+    inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen,
+    sobretodo si no es de mucha calidad, puede tener ruido naturalmente, esta
+    transformación imita esto.
+    \item \textbf{HorizontalFlip:} refleja la foto
+    sobre su eje vertical, creando nuevas instancias que son iguales a las
+    originales pero reflejadas.
+    \item \textbf{HueSaturationValue:}
+    transformación similar a ColorJitter que a diferencia de esta no modifica
+    el contraste, solo el valor, equivalente al brillo; la saturación y el
+    tono.
+    \item \textbf{ISONoise:} crea ruido que simula el ruido creado por
+    diferentes ajustes de exposición de una cámara.  Simula los dos componentes
+    principales del ruido ISO: cambios aleatorios en el tono de los colores y
+    variaciones aleatorias en intensidad de los pixeles.
+    \item \textbf{ImageCompression:} decrementa la calidad de la imagen
+    comprimiendola a un formato "jpeg". Simula casos en los que las imagenes
+    son de peor calidad.
+    \item \textbf{Morphological:} aumenta el grosor de
+    zonas blancas de la imagen, simulando una mayor iluminazión de la zona.
+    \item \textbf{PlanckianJitter:} simula variaciones de temperatura de la luz
+    en una imagen que en este caso sería el tono de las luces de la pista.
+    \item \textbf{Posterize:} reduce el número de bits para cada color en una
+    imagen. El efecto final es de una imagen que ha perdido calidad y se han
+    unificado algunos colores.
+    \item \textbf{RGBShift:} la transformación
+    modifica aleatoriamente e individualmente los canales RGB de la imagen.  El
+    rango de modificación que se ha definido es pequeño ya que solo se busca
+    obtener imagenes con ligeras variaciones que podrían ser probocadas por el
+    tipo de luz o por la cámara usada.
+    \item \textbf{RandomBrightnessContrast:} cambia el brillo y contraste de la
+    imagen, creando instancias de como sería la imagen en otras condiciones
+    lumínicas.
+    \item \textbf{RandomGamma:} similar a la transformación
+    anterior pero modificando el Gamma. Con esto se asegura que aunque cambie
+    el brillo la relación entre claros y oscuros se mantendrá.
+    \item \textbf{RandomToneCurve:} manipula la curva del tono cambiando la relación
+    entre las zonas oscuras y las claras de la imagen. Simula diferentes
+    intensidades de iluminación de la pista.
+    \item \textbf{RingingOvershoot:}
+    hace borrosos los limites de los objetos de una imagen. En este caso se
+    aplica porque simula como sería una imagen si la cámara estuviera
+    desenfocada.
+    \item \textbf{Sharpen:} utiliza interpolado para "afilar" la
+    imagen. Hace que los bordes sean más pronunciados pero como efecto
+    secundario lleva a que se pierda calidad de la imagen.
     \end{enumerate}
+
     \section{Entrenamiento: modelos de YOLO}
 
-    Durante el entrenamiento se crean tres modelos distintos mediante el uso del algoritmo “You Only Look Once”(YOLO){biblio}, basado en redes de neuronas convolucionales. Dos de estos modelos buscarán clasificar videos en jugadas correctas o erróneas, mientras que el tercero pretende detectar la pelota y seguirla en estos videos. Con esto se pretende crear un pipeline final que produzca un video en el que se pueda seguir el balón al mismo tiempo que aparezca su clasificación en una jugada correcta o incorrecta. 
-    Se ha decidido utilizar YOLO por la facilidad, rapidez y precisión que este proporciona para crear modelos propios de detección y clasificación de imágenes, siendo una de las tecnologías principales en el área del Computer Vision. Permite crear modelos fácilmente entrenables de manera rápida y eficiente{bibliografia} con imágenes propias con la simple restricción de una estructura de ficheros específica. Esta estructura divide los datos en carpetas de entrenamiento, test y, de manera opcional, validación. La estructura interna de estas carpetas variará dependiendo del tipo de modelo que se vaya a utilizar, en este caso clasificación o detección, que serán explicadas a continuación. 
-    Cabe destacar que en el entrenamiento de todos los modelos se han utilizado 100 epochs, considerando esto un número correcto por conseguir suficiente precisión sin sacrificar el tiempo de entrenamiento, el cual es limitado por la falta de máquinas complejas dedicadas.
+    Durante el entrenamiento se crean tres modelos distintos mediante el uso
+    del algoritmo “You Only Look Once”(YOLO){biblio}, basado en redes de
+    neuronas convolucionales. Dos de estos modelos buscarán clasificar videos
+    en jugadas correctas o erróneas, mientras que el tercero pretende detectar
+    la pelota y seguirla en estos videos. Con esto se pretende crear un
+    pipeline final que produzca un video en el que se pueda seguir el balón al
+    mismo tiempo que aparezca su clasificación en una jugada correcta o
+    incorrecta.  Se ha decidido utilizar YOLO por la facilidad, rapidez y
+    precisión que este proporciona para crear modelos propios de detección y
+    clasificación de imágenes, siendo una de las tecnologías principales en el
+    área del Computer Vision. Permite crear modelos fácilmente entrenables de
+    manera rápida y eficiente{bibliografia} con imágenes propias con la simple
+    restricción de una estructura de ficheros específica. Esta estructura
+    divide los datos en carpetas de entrenamiento, test y, de manera opcional,
+    validación. La estructura interna de estas carpetas variará dependiendo del
+    tipo de modelo que se vaya a utilizar, en este caso clasificación o
+    detección, que serán explicadas a continuación.  Cabe destacar que en el
+    entrenamiento de todos los modelos se han utilizado 100 epochs,
+    considerando esto un número correcto por conseguir suficiente precisión sin
+    sacrificar el tiempo de entrenamiento, el cual es limitado por la falta de
+    máquinas complejas dedicadas.
     
     \subsection{Clasificación}
-    Para la creación de estos modelos se utiliza la tarea de clasificación proporcionada por yolo{aqui tengo que poner biblio}, lo cual se determina en la elección del modelo inicial. En este caso se utiliza un modelo pre entrenado básico como base, “yolo11n-cls.pt”, siendo esta la recomendación para entrenamiento que no necesite de un modelo completamente nuevo. Esto evita la necesidad de crear un modelo desde cero, siendo necesario sólo la definición de las clases. Para  esto es necesario crear una carpeta de imágenes para cada una de las clases dentro de las carpetas de entrenamiento y test antes mencionadas. 
+    Para la creación de estos modelos se utiliza la tarea de clasificación
+    proporcionada por yolo{aqui tengo que poner biblio}, lo cual se determina
+    en la elección del modelo inicial. En este caso se utiliza un modelo pre
+    entrenado básico como base, “yolo11n-cls.pt”, siendo esta la recomendación
+    para entrenamiento que no necesite de un modelo completamente nuevo. Esto
+    evita la necesidad de crear un modelo desde cero, siendo necesario sólo la
+    definición de las clases. Para  esto es necesario crear una carpeta de
+    imágenes para cada una de las clases dentro de las carpetas de
+    entrenamiento y test antes mencionadas. 
     
-    Yolo presenta una desventaja principal en el problema de la clasificación de videos: trabaja con fotogramas independientes, asignando a cada fotograma de entrada una clase sin tener en cuenta la clasificación del resto del video. Esto provoca que no exista una identificación de la acción completa, lo cual se teoriza que puede causar problemas sobre todo en acciones como las deportivas, en las que la diferencia entre una jugada correcta y una incorrecta se define en dos o tres fotogramas claves. Por esto, se plantean dos aproximaciones a la clasificación de videos:
+    Yolo presenta una desventaja principal en el problema de la clasificación
+    de videos: trabaja con fotogramas independientes, asignando a cada
+    fotograma de entrada una clase sin tener en cuenta la clasificación del
+    resto del video. Esto provoca que no exista una identificación de la acción
+    completa, lo cual se teoriza que puede causar problemas sobre todo en
+    acciones como las deportivas, en las que la diferencia entre una jugada
+    correcta y una incorrecta se define en dos o tres fotogramas claves. Por
+    esto, se plantean dos aproximaciones a la clasificación de videos:
+
     \begin{enumerate}
         \item \textbf{Modelo de clasificación binario:} con clases “correct” y “wrong”, que dividen todas las jugadas dependiendo de la corrección de estas.
         \item \textbf{Modelo de tres clases:} Con una clase adicional correspondiente con los momentos de espera antes y después del instante clave de la jugada.
