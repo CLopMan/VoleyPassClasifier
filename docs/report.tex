@@ -605,11 +605,11 @@ hmargin=3cm
     solo un $2.59\%$ de las instancias están etiquetadas como negativas. Debido
     a esto, se ha decidido realizar tanto un \textit{oversampling} de la clase
     minoritaria como un \textit{undersampling} de la clase mayoritaria. Para la
-    realización del \textit{undersampling}, se ha decidido eliminar un $30\%$ de
+    realización del \textit{undersampling}, se ha decidido eliminar un $50\%$ de
     las instancias de la clase positiva, seleccionadas aleatoriamente.
 
     Para el oversampling se ha usado la librería de python
-    Albumentations~\cite(albumentations) que permite realizar aumento de
+    Albumentations~\cite{albumentations} que permite realizar aumento de
     imágenes para crear nuevas instancias. Esta librería utiliza redes
     neuronales profundas para aplicar transformaciones a una imagen dada.  Se
     ha realizado un código python que toma todas las imágenes de una carpeta y
@@ -709,7 +709,7 @@ hmargin=3cm
     \section{Entrenamiento: modelos de YOLO}
 
     Durante el entrenamiento se crean tres modelos distintos mediante el uso
-    del algoritmo “You Only Look Once”(YOLO){biblio}, basado en redes de
+    del algoritmo ``You Only Look Once'' (YOLO){biblio}, basado en redes de
     neuronas convolucionales. Dos de estos modelos buscarán clasificar videos
     en jugadas correctas o erróneas, mientras que el tercero pretende detectar
     la pelota y seguirla en estos videos. Con esto se pretende crear un
@@ -734,7 +734,7 @@ hmargin=3cm
     Para la creación de estos modelos se utiliza la tarea de clasificación
     proporcionada por yolo{aqui tengo que poner biblio}, lo cual se determina
     en la elección del modelo inicial. En este caso se utiliza un modelo pre
-    entrenado básico como base, “yolo11n-cls.pt”, siendo esta la recomendación
+    entrenado básico como base, ``yolo11n-cls.pt'', siendo esta la recomendación
     para entrenamiento que no necesite de un modelo completamente nuevo. Esto
     evita la necesidad de crear un modelo desde cero, siendo necesario sólo la
     definición de las clases. Para  esto es necesario crear una carpeta de
@@ -751,14 +751,14 @@ hmargin=3cm
     esto, se plantean dos aproximaciones a la clasificación de videos:
 
     \begin{enumerate}
-        \item \textbf{Modelo de clasificación binario:} con clases “correct” y “wrong”, que dividen todas las jugadas dependiendo de la corrección de estas.
+        \item \textbf{Modelo de clasificación binario:} con clases ``correct'' y ``wrong'', que dividen todas las jugadas dependiendo de la corrección de estas.
         \item \textbf{Modelo de tres clases:} Con una clase adicional correspondiente con los momentos de espera antes y después del instante clave de la jugada.
     \end{enumerate}
     Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
     
     \subsection{Detección de objetos}
-    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una “caja” que marque el recorrido de la pelota en un video. Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes. 
-    Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo “yolo11n.pt”. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional “data.yaml” que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
+    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes. 
+    Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo ``yolo11n.pt''. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional ``data.yaml'' que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
     
 
     \section{Evaluación}
