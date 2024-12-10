@@ -5,3 +5,10 @@ test: ./test/images
 
 nc: 1
 names: ['Volleyball']
+
+roboflow:
+  workspace: universidade-de-coimbra-qax7o
+  project: volleyball-fvtfx
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/universidade-de-coimbra-qax7o/volleyball-fvtfx/dataset/1
