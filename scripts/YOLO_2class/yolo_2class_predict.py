@@ -22,7 +22,15 @@ for prediction in predictions:
     else:
         wrong +=1
 
+if correct > wrong:
+    clase_mayoritaria = "Set correcto"
+elif wrong > correct:
+    clase_mayoritaria = "Set incorrecto"
+else:
+    clase_mayoritaria = "no concluyente"
+
+
 print("RESULTADO: set correcto =", correct, " instancias, porcentaje = ", 100*(correct/(correct+wrong)), "%\n",
       "set incorrecto= ",wrong, "instancias, porcentaje =", 100*(wrong/(wrong+correct)), 
       "\nConfianza media:",np.mean(confidence),
-      "Clase mayoritaria de clasificación:", max(correct,wrong))
+      "Clase mayoritaria de clasificación:", clase_mayoritaria)
