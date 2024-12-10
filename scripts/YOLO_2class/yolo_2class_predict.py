@@ -9,8 +9,6 @@ input_predict = input("Introduce el fichero a predecir:")
 
 predictions = model(input_predict, show=True, stream=True)
 
-format = {   0: 'correct_set',
-             1: 'wrong_set'}
 correct = 0
 wrong = 0
 confidence = []
@@ -19,7 +17,7 @@ confidence = []
 for prediction in predictions:
     top = prediction.probs.top1
     confidence.append(prediction.probs.top1conf)
-    if(top == 1):
+    if(top == 0):
         correct +=1
     else:
         wrong +=1
