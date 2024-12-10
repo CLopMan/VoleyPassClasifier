@@ -637,7 +637,26 @@ hmargin=3cm
         \item \textbf{Sharpen:} utiliza interpolado para "afilar" la imagen. Hace que los bordes sean más pronunciados pero como 
         efecto secundario lleva a que se pierda calidad de la imagen.
     \end{enumerate}
-    \section{Entrenamiento}
+    \section{Entrenamiento: modelos de YOLO}
+
+    Durante el entrenamiento se crean tres modelos distintos mediante el uso del algoritmo “You Only Look Once”(YOLO){biblio}, basado en redes de neuronas convolucionales. Dos de estos modelos buscarán clasificar videos en jugadas correctas o erróneas, mientras que el tercero pretende detectar la pelota y seguirla en estos videos. Con esto se pretende crear un pipeline final que produzca un video en el que se pueda seguir el balón al mismo tiempo que aparezca su clasificación en una jugada correcta o incorrecta. 
+    Se ha decidido utilizar YOLO por la facilidad, rapidez y precisión que este proporciona para crear modelos propios de detección y clasificación de imágenes, siendo una de las tecnologías principales en el área del Computer Vision. Permite crear modelos fácilmente entrenables de manera rápida y eficiente{bibliografia} con imágenes propias con la simple restricción de una estructura de ficheros específica. Esta estructura divide los datos en carpetas de entrenamiento, test y, de manera opcional, validación. La estructura interna de estas carpetas variará dependiendo del tipo de modelo que se vaya a utilizar, en este caso clasificación o detección, que serán explicadas a continuación. 
+    Cabe destacar que en el entrenamiento de todos los modelos se han utilizado 100 epochs, considerando esto un número correcto por conseguir suficiente precisión sin sacrificar el tiempo de entrenamiento, el cual es limitado por la falta de máquinas complejas dedicadas.
+    
+    \subsection{Clasificación}
+    Para la creación de estos modelos se utiliza la tarea de clasificación proporcionada por yolo{aqui tengo que poner biblio}, lo cual se determina en la elección del modelo inicial. En este caso se utiliza un modelo pre entrenado básico como base, “yolo11n-cls.pt”, siendo esta la recomendación para entrenamiento que no necesite de un modelo completamente nuevo. Esto evita la necesidad de crear un modelo desde cero, siendo necesario sólo la definición de las clases. Para  esto es necesario crear una carpeta de imágenes para cada una de las clases dentro de las carpetas de entrenamiento y test antes mencionadas. 
+    
+    Yolo presenta una desventaja principal en el problema de la clasificación de videos: trabaja con fotogramas independientes, asignando a cada fotograma de entrada una clase sin tener en cuenta la clasificación del resto del video. Esto provoca que no exista una identificación de la acción completa, lo cual se teoriza que puede causar problemas sobre todo en acciones como las deportivas, en las que la diferencia entre una jugada correcta y una incorrecta se define en dos o tres fotogramas claves. Por esto, se plantean dos aproximaciones a la clasificación de videos:
+    \begin{enumerate}
+        \item \textbf{Modelo de clasificación binario:} con clases “correct” y “wrong”, que dividen todas las jugadas dependiendo de la corrección de estas.
+        \item \textbf{Modelo de tres clases:} Con una clase adicional correspondiente con los momentos de espera antes y después del instante clave de la jugada.
+    \end{enumerate}
+    Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
+    
+    \subsection{Detección de objetos}
+    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una “caja” que marque el recorrido de la pelota en un video. Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes. 
+    Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo “yolo11n.pt”. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional “data.yaml” que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
+    
 
     \section{Evaluación}
 
