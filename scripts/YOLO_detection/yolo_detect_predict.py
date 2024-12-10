@@ -5,7 +5,7 @@ import cv2
 model = YOLO("runs/detect/train19/weights/best.pt")  # load a custom model
 
 
-video_path = "35850.mp4"
+video_path = "3646.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Loop through the video frames
@@ -21,7 +21,7 @@ while cap.isOpened():
         annotated_frame = results[0].plot()
 
         # Display the annotated frame
-        cv2.imshow("YOLO Inference", annotated_frame)
+        cv2.imshow("Ball detection", annotated_frame)
 
         # Break the loop if 'q' is pressed
         if cv2.waitKey(1) & 0xFF == ord("q"):

@@ -662,6 +662,12 @@ hmargin=3cm
     
 
     \section{Evaluación}
+    - Tras clasificar cada fotograma por separado, el video corresponde con la clase mayoritaria. En el caso de tres clases "waiting" será contada en el porcentaje pero no en la clasificación final. Se consigue información de número de fotogramas clasificados como correctos e incorrectos, el porcentaje que representan del total, así como la confianza media del modelo en total del video.
+    - Si existe el mismo número de instancias positivas y negativas se considera el resultado como no concluyente.
+    - Matriz de confusión, comprobar los falsos positivos o negativos, importancia minimizar los falsos incorrectos, pues esto son los más dañinos al considerar una acción correcta como erronea.
+    - Información de precisión proporcionada por YOLO, contiene información del mejor modelo durante el entrenamiento. Utiliza Loss, buena métrica para comprobar como de malas son las predicciones, se busca minimizar.
+    - Utilización de videos completamente independientes a los videos de entrenamiento grabados por el grupo, que son una buena opción para probar la capacidad de generalización del modelo.
+
 
     \chapter{Análisis de resultados}
     \label{chap:resultados}
