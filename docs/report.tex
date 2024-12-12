@@ -389,7 +389,7 @@ hmargin=3cm
     detección de objetos suelen dividirse en dos pasos: reconocimiento de
     objetos y clasificación de estos. La realización de estos dos pasos
     requiere de un tiempo y poder computacional adicional, siendo estos siempre
-    secuenciale. YOLO, sin embargo, cuenta con la habilidad de realizar el
+    secuenciales. YOLO, sin embargo, cuenta con la habilidad de realizar el
     reconocimiento y clasificación al mismo tiempo, lo cual lo determina como
     una de las mejores opciones en tareas de reconocimiento en tiempo real. Es
     por esto junto con la facilidad de entrenamiento y uso que proporciona
@@ -399,7 +399,7 @@ hmargin=3cm
     La inteligencia aritificial ha tenido una gran evolución en los últimos
     años, expandiéndo su uso a diferentes áreas nunca antes imaginadas. El
     mundo del deporte no ha sido una excepción, siendo la IA una herramienta de
-    gran potencial para el la comprensión profunda del rendimiento
+    gran potencial para la comprensión profunda del rendimiento
     deportivo~\cite{ia-sport}. Algunos ejemplos de su uso son el análisis de
     imágenes 3D para la mejora del rendimiento deportivo~\cite{analysis3d} o la
     planificación de cargas~\cite{wl}. 
@@ -588,12 +588,12 @@ hmargin=3cm
     Además, ha sido necesario modificar la segunda base de datos para incluir
     el tamaño de la \textit{bounding box} para cada balón. Esto último se ha
     hecho a través de un programa de \texttt{Python}. Se ha escogido un 
-    tamaño genérico igual para todas las instancias ($20px\times20px$).
+    tamaño genérico igual para todas las instancias ($20\text{px}\times20\text{px}$).
 
-    Las secuencias se han separado en dos carpetas, cada una conteniendo las
-    imágenes de cada una de las clases. Adicionalmente, para cada carpeta se
-    han dividido las secuencias en subconjuntos de entrenamiento y evaluación.
-    Para esto se ha usado un programa en \texttt{Python}.
+    Las secuencias se han separado en dos carpetas, cada una conteniendo los
+    frames las secuencias de los subconjuntos de entrenamiento y evaluación.
+    Adicionalmente, para cada carpeta se han dividido los frames en subconjuntos
+    para cada una de las clases. Para esto se ha usado un programa en \texttt{Python}.
 
     Adicionalmente se ha creado una clase más denominada \textit{wait} para
     aquellos frames que no aporten información relativa al tipo de acción. Se
@@ -613,7 +613,7 @@ hmargin=3cm
     para crear nuevas instancias, mediante el uso de redes neuronales profundas.
     
     Para generar nuevas instancias se han aplicado entre 1 y 9 transformaciones
-    seleccionadas de forma aleatoria a caada imagen, generando 4
+    seleccionadas de forma aleatoria a cada imagen, generando 4
     nuevas instancias por cada secuencia. Para ello se ha elaborado un código
     python que toma todas las imágenes de una carpeta y aplica este proceso a
     cada una.
@@ -658,7 +658,7 @@ hmargin=3cm
     Albumentations se han seleccionado únicamente 20 de estas. Esto se debe a
     que muchas transformaciones generan instancias demasiado alejadas de las
     condiciones habituales en los centros deportivos (e.g. simulación de nieves
-    o inversión de color), lo que podría ensuar el conjunto de datos. A
+    o inversión de color), lo que podría ensuciar el conjunto de datos. A
     continuación se enumeran las transformaciones seleccionadas:
 
     \begin{enumerate} \item \textbf{CLAHE:} esta transformación, cuyas siglas
@@ -673,8 +673,8 @@ hmargin=3cm
     \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el
     tono, que pueden cambiar dependiendo de factores como la iluminación. Por
     esto se ha considerado una transformación posible aunque el rango de
-    transformación del tono definido es muy pequeño ya que se quería simular
-    cambios ligeros por iluminación o calibración de la cámara no camabios
+    transformación del tono definido es muy pequeño, ya que se quería simular
+    cambios ligeros por iluminación o calibración de la cámara y no cambios
     grandes no comunes.
     \item \textbf{Downscale:} reduce la calidad de la
     imagen reduciendo su tamaño y volviendo a aumentarlo.  Variaciones de
@@ -690,7 +690,7 @@ hmargin=3cm
     naturalmente debido a ajustes de la cámara.
     \item \textbf{GaussNoise:}
     inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen,
-    sobretodo si no es de mucha calidad, puede tener ruido naturalmente, esta
+    sobretodo si no es de mucha calidad, puede tener ruido naturalmente, y esta
     transformación imita esto.
     \item \textbf{HorizontalFlip:} refleja la foto
     sobre su eje vertical, creando nuevas instancias que son iguales a las
@@ -704,7 +704,7 @@ hmargin=3cm
     principales del ruido ISO: cambios aleatorios en el tono de los colores y
     variaciones aleatorias en intensidad de los pixeles.
     \item \textbf{ImageCompression:} decrementa la calidad de la imagen
-    comprimiendola a un formato "jpeg". Simula casos en los que las imagenes
+    comprimiéndola a un formato ``\verb!jpeg!''. Simula casos en los que las imagenes
     son de peor calidad.
     \item \textbf{Morphological:} aumenta el grosor de
     zonas blancas de la imagen, simulando una mayor iluminazión de la zona.
@@ -731,7 +731,7 @@ hmargin=3cm
     hace borrosos los limites de los objetos de una imagen. En este caso se
     aplica porque simula como sería una imagen si la cámara estuviera
     desenfocada.
-    \item \textbf{Sharpen:} utiliza interpolado para "afilar" la
+    \item \textbf{Sharpen:} utiliza interpolado para ``afilar'' la
     imagen. Hace que los bordes sean más pronunciados pero como efecto
     secundario lleva a que se pierda calidad de la imagen.
     \end{enumerate}
@@ -769,13 +769,13 @@ hmargin=3cm
     propios de detección y clasificación de imágenes, siendo una de las
     tecnologías principales en el área del Computer Vision. YOLO Permite crear
     modelos fácilmente entrenables de manera rápida y eficiente{bibliografia}
-    con imágenes propias. Para ello es necesario especificar cada clase como un
-    directorio que contenga todas las imágenes de dicha clase. Dentro de este
-    directorio se pueden separar las imágenes en otros dos: uno de
-    entrenamiento y, opcionalmente, otro de validación. La estructura interna
-    de estas carpetas variará dependiendo del tipo de modelo que se vaya a
-    utilizar. Los modelos han sido entrenados con 100 \textit{epochs} con el
-    fin de lograr suficiente precisión en un tiempo de entrenamiento limitado.
+    con imágenes propias. Para ello es necesario dividir las imágenes en 2
+    directorios: uno de entrenamiento y otro de validación. Dentro de estos
+    directorios, la clase de cada imágen se indica separando las imágenes en un
+    subdirectorio para cada clase. La estructura interna de estas carpetas
+    variará dependiendo del tipo de modelo que se vaya a utilizar. Los modelos
+    han sido entrenados con 100 \textit{epochs} con el fin de lograr suficiente
+    precisión en un tiempo de entrenamiento limitado.
 
     Tanto para el problema de clasificaicón como el de detección y seguimiento
     se parte de un modelo preentrenado, al que se especializa a través del
@@ -965,4 +965,9 @@ hmargin=3cm
     \section*{Código Python para la división por carpetas}
     \label{div_carpetas}
     \lstinputlisting[language=Python]{../scripts/split_videos.py}
+
+    \phantomsection
+    \section*{Código Python para la realización del \textit{oversampling}}
+    \label{div_carpetas}
+    \lstinputlisting[language=Python]{../scripts/oversampling.py}
 \end{document}
