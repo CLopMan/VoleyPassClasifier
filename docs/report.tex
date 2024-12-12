@@ -40,6 +40,7 @@ hmargin=3cm
 \definecolor{gray45}{gray}{.45}
 
 \usepackage{tikz}
+\usetikzlibrary{positioning, babel}
 \usepackage{pgfplots}
 % Soporte para GENERAR PDF/A --es importante de cara a su inclusión en e-Archivo porque es el formato óptimo de preservación y a la generación de metadatos, tal y como se describe en http://uc3m.libguides.com/ld.php?content_id=31389625. En la carpeta incluímos el archivo plantilla_tfg_2017.xmpdata en el que puedes incluir los metadatos que se incorporarán al archivo PDF cuando lo compiles. Ese archivo debe llamarse igual que tu archivo .tex. Puedes ver un ejemplo en esta misma carpeta.
 \usepackage[a-1b]{pdfx}
@@ -875,6 +876,144 @@ hmargin=3cm
 
     \chapter{Análisis de resultados}
     \label{chap:resultados}
+
+    \section{Evaluación de secuencias}
+
+    Las siguientes figuras muestras las estadísticas del entrenamiento de los
+    modelos generadas por YOLO. Como se puede ver, mientras que el modelo
+    binario ha conseguido alcanzar un óptimo local con 100 \textit{epochs}, el
+    modelo ternario todavía estaba mejorando al llegar a este límite. Esto
+    significa que su rendimiento podría mejorar con un entrenamiento más largo.
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=\textwidth]{results2.png}
+    \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación binario}}
+    \end{figure}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=\textwidth]{results3.png}
+    \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación ternario}}
+    \end{figure}
+\end{minipage}
+
+    Las siguientes figuras muestas la matriz de confusión de los modelos
+    entrenados, generada por YOLO en el conjunto de entrenamiento. Como se puede
+    ver, el modelo binario es capaz de obtener una baja tasa de falsos
+    negativos, pero tiene algunas dificultades diferenciando las instancias
+    negativas de las positivas.
+
+    El modelo ternario, por otro lado es incapaz de diferenciar las instacias
+    incorrectas de las de espera.  Además, el modelo también tiene dificultades
+    para diferenciar las instancias correctas de los frames de espera. Esto
+    puede deberse a la baja diferencia que existe entre los frames de estas
+    clases. A pesar de que la clase espera se creó para ayudar al modelo a
+    seleccionar los frames relevantes para la clasificación, se han obtenido los
+    resultados opuestos.
+
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{confusion_matrix2.png}
+    \caption  {Matriz de confusión del modelo de clasificación binario}
+    \end{figure}
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{confusion_matrix3.png}
+    \caption  {Matriz de confusión del modelo de clasificación ternario}
+    \end{figure}
+
+    Como ya se explicó, se han probado los modelos con nuevos vídeos recopilados
+    durante un entrenamiento. Los resultados de esto se pueden ver en la
+    siguiente tabla. Para cada entrenamiento, YOLO genera dos modelos: el modelo
+    con el mejor error encontrado durante el entrenamiento, y el modelo
+    entrenado en el último \textit{epoch}. Se han probado ambos modelos para
+    comprobar si hay alguna diferencia, y en caso afirmativo cual generaliza
+    mejor. Cabe destacar que en el caso de los modelos ternarios, los frames
+    clasificados con la clase de espera no se tienen en cuenta para determinar
+    la clase mayoritaria y por lo tanto el resultado. Esto puede llevar a
+    resultados no concluyentes cuando se clasifica la misma cantidad de frames
+    con la clase correcta e incorrecta, lo cual suele ocurrir cuando todos los
+    frames se etiquetan con la clase de espera.
+
+    Como se puede ver, las predicciones son bastante malas, con una tasa de
+    acierto del 50 \% en el mejor de los casos y de un 0 \% para los modelos
+    ternarios. Estos resultados indican que, aunque el modelo ha sido capaz de
+    obtener un buen error en el conjunto de \textit{test}, no ha sido capaz de
+    generalizar a nuevos vídeos. Esto puede deberse a la gran diferencia entre
+    los vídeos utilizados para el entrenamiento y los recopilados en casos
+    reales. Para solucionar este problema, se necesitaría recopilar y etiquetar
+    muchos más datos con mayor variación, lo cual no se ha podido realizar por
+    limitaciones de recursos.
+
+    \begin{table}[H]
+        \center
+        \begin{tabular}{@{}ccccc@{}}
+            \toprule
+             & \multicolumn{2}{c}{Modelo binario} & \multicolumn{2}{c}{Modelo ternario} \\
+            \cmidrule(lr){2-3} \cmidrule(l){4-5}
+            Clase real & Mejor modelo & Último modelo & Mejor modelo & Último modelo \\
+            \midrule
+            Correcto   & Incorrecto & Correcto   & No concluyente & Incorrecto \\
+            Correcto   & Incorrecto & Incorrecto & No concluyente & No concluyente \\
+            Incorrecto & Incorrecto & Correcto   & No concluyente & No concluyente \\
+            Correcto   & Incorrecto & Correcto   & Incorrecto     & Incorrecto \\
+            Correcto   & Incorrecto & Correcto   & Incorrecto     & No concluyente \\
+            Incorrecto & Incorrecto & Correcto   & No concluyente & No concluyente \\
+            \midrule
+            Tasa de acierto & 33 \% & 50 \% & 0 \% & 0 \% \\
+            \bottomrule
+        \end{tabular}
+        \caption{Resultados de los modelos de clasificación en secuencias nuevas}
+    \end{table}
+
+    \section{Detección del balón}
+    Durante la evaluación del modelo de detección del balón, se han encontrado
+    varios problemas. En el conjunto de \textit{test}, encontrar el balón tiene
+    una alta complejidad debido a la gran velocidad del mismo, lo cual hace que
+    aparezca borroso en los vídeos, su pequeño tamaño, que hace que sea fácil de
+    confundir con el fondo de los vídeos o los espectadores, y la existencia de
+    iconos similares al balón en los vídeos. La siguiente figura muestra un
+    ejemplo de este último problema.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (img) at (0,0) {\includegraphics[width=0.9\linewidth]{falso_positivo_icono.jpeg}};
+            \node[] (txt) at (2.25, 4.5) {Bola real};
+            \draw[red, very thick, ->] (txt.south) -- (2.25, 0.7);
+        \end{tikzpicture}
+        \caption{Ejemplo de falso positivo debido a un icono en el vídeo}
+    \end{figure}
+
+    En los casos reales, en los cuales la bola se puede ver más fácilmente, el
+    modelo confunde objetos del fondo y fuentes de luz con balones, como se
+    puede ver en la siguiente figura. Cabe destacar que estos falsos positivos
+    tienen una baja confianza.
+
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{bola1.png}
+    \caption{Falso positivo con baja confianza}
+    \end{figure}
+
+    Para solucionar esto, se ha añadido un umbral mínimo a la confianza
+    necesaria para detectar un balón. Esto mejora los resultados, pero sigue
+    habiendo falsos positivos con alta confianza en algunos casos,
+    particularmente alrededor de fuentes de luz. Esto se podría corregir un un
+    major entrenamiento, pero esto necesitaría mayor capacidad de cómputo.
+
+    \begin{minipage}{0.45\textwidth}
+        \begin{figure}[H]
+        \includegraphics[width=\textwidth]{bola2.png}
+        \caption{Falso positivo con alta confianza}
+        \end{figure}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}{0.45\textwidth}
+        \begin{figure}[H]
+        \includegraphics[width=\textwidth]{bola3.png}
+        \caption{Detección sin falsos positivos}
+        \end{figure}
+    \end{minipage}
 
     \chapter{Trabajos futuros}
     \label{chap:future}
