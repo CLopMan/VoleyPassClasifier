@@ -1,11 +1,10 @@
 from ultralytics import YOLO
 import cv2
 
-# Load a model
-model = YOLO("runs/detect/train19/weights/best.pt")  # load a custom model
+# Load the model
+model = YOLO("runs/detect/train19/weights/best.pt") 
 
-
-video_path = "3646.mp4"
+video_path = "1111.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Loop through the video frames
@@ -16,6 +15,8 @@ while cap.isOpened():
     if success:
         # Run YOLO inference on the frame
         results = model(frame)
+
+        results[0].boxes.data = results[0].boxes.data[results[0].boxes.data[:, 4] > 0.6]
 
         # Visualize the results on the frame
         annotated_frame = results[0].plot()

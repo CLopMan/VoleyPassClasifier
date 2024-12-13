@@ -1,6 +1,7 @@
-# This script trains the model, that will be saved at runs/classify/train/weights/best.pt
+# This script trains the model for 3 classes, that will be saved at runs/classify/train3/weights/best.pt
 import ultralytics
 
+# Load a trained model as a base for our model
 model = ultralytics.YOLO("yolo11n-cls.pt")
 
 # Path to the folder that will have test and train

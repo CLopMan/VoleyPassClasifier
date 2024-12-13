@@ -13,7 +13,7 @@ correct = 0
 wrong = 0
 confidence = []
 
-
+# Counts instances of each class
 for prediction in predictions:
     top = prediction.probs.top1
     confidence.append(prediction.probs.top1conf)
@@ -22,6 +22,7 @@ for prediction in predictions:
     else:
         wrong +=1
 
+# Checks what class most of the frames are
 if correct > wrong:
     clase_mayoritaria = "Set correcto"
 elif wrong > correct:
@@ -29,7 +30,7 @@ elif wrong > correct:
 else:
     clase_mayoritaria = "no concluyente"
 
-
+# results
 print("RESULTADO: set correcto =", correct, " instancias, porcentaje = ", 100*(correct/(correct+wrong)), "%\n",
       "set incorrecto= ",wrong, "instancias, porcentaje =", 100*(wrong/(wrong+correct)), 
       "\nConfianza media:",np.mean(confidence),
