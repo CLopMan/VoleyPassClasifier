@@ -767,14 +767,14 @@ hmargin=3cm
     \section{Entrenamiento: modelos de YOLO}
 
     Durante el entrenamiento se han creado tres modelos distintos mediante el
-    uso del algoritmo ``You Only Look Once'' (YOLO){biblio}, basado en redes de
+    uso del algoritmo ``You Only Look Once'' (YOLO)~\cite{YOLO}, basado en redes de
     neuronas convolucionales. Dos de estos modelos buscan clasificar videos en
     jugadas correctas o erróneas, mientras que el tercero pretende detectar la
     pelota y seguirla en estos videos. Se ha decidido utilizar YOLO por la
     facilidad, rapidez y precisión que este proporciona para crear modelos
     propios de detección y clasificación de imágenes, siendo una de las
     tecnologías principales en el área del Computer Vision. YOLO Permite crear
-    modelos fácilmente entrenables de manera rápida y eficiente{bibliografia}
+    modelos fácilmente entrenables de manera rápida y eficiente~\cite{YoloUltralytics}
     con imágenes propias. Para ello es necesario dividir las imágenes en 2
     directorios: uno de entrenamiento y otro de validación. Dentro de estos
     directorios, la clase de cada imágen se indica separando las imágenes en un
@@ -783,7 +783,7 @@ hmargin=3cm
     han sido entrenados con 100 \textit{epochs} con el fin de lograr suficiente
     precisión en un tiempo de entrenamiento limitado.
 
-    Tanto para el problema de clasificaicón como el de detección y seguimiento
+    Tanto para el problema de clasificación como el de detección y seguimiento
     se parte de un modelo preentrenado, al que se especializa a través del
     entrenamiento con nuestros conjuntos de datos. Esto evita la necesidad de
     crear un modelo completamente nuevo, facilitando el desarrollo y mejorando
@@ -843,11 +843,11 @@ hmargin=3cm
 %    Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
     
     \subsection{Detección de objetos}
-    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Esto sirve de ayuda visual a estadisticos o analistas de partidos sobre todo en competiciones masculinas, donde la bola puede alcanzar velocidades de hasta 140 km/h. 
+    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO~\cite{YOLODetect}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Esto sirve de ayuda visual a estadisticos o analistas de partidos sobre todo en competiciones masculinas, donde la bola puede alcanzar velocidades de hasta 140 km/h. 
 
     Como primera aproximación, se intentó usar el segundo conjunto de datos presentado anteriormente. Sin embargo, la limitación en potencia de cómputo de nuestras máquinas hacía de este algo imposible por la gran duración del proceso de entrenamiento. En consecuencia, se ha empleado el tercer conjunto de datos. Este conjunto presenta además otras ventajas como es la mayor variabilidad de condiciones en las imágenes (luminosidad, contraste, fondos...), que se asemejan más a las condiciones que se puenden encontrar en pabellones comunes de competiciones de bajo nivel.
 
-    Siguiendo el mismo proceso que para la clasificación, se ha partido de un modelo preentrenado para la detección y seguimiento de objetos: \texttt{yolo11n.pt}~\cite{yolo11n}. Para su correcto funcionamiento se han dividido las imágenes en dos directorios, \textit{train} y \textit{test}, y se han definido las características específicas de nuestro modelo en el fichero \textit{data.yaml}. 
+    Siguiendo el mismo proceso que para la clasificación, se ha partido de un modelo preentrenado para la detección y seguimiento de objetos: \texttt{yolo11n.pt}~\cite{YOLODetect}. Para su correcto funcionamiento se han dividido las imágenes en dos directorios, \textit{train} y \textit{test}, y se han definido las características específicas de nuestro modelo en el fichero \textit{data.yaml}. 
 
     % Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes.
     %Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo ``yolo11n.pt''. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional ``data.yaml'' que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
