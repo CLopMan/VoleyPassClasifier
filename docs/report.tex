@@ -904,20 +904,17 @@ hmargin=3cm
     mantenía una tendencia de mejora. Esto significa que su rendimiento podría
     mejorar con un entrenamiento más largo.
 
-    Al observar la matriz de confusión de los modelos entrenados (\textit{fig.} \ref{mc1} y \ref{mc2}), se puede
-    apreicar una gran diferencia entre modelos.
-
-    El modelo binario es capaz de obtener una baja tasa de falsos negativos,
-    pero tiene algunas dificultades diferenciando las instancias negativas de
-    las positivas.
-
-    El modelo ternario, por otro lado es incapaz de diferenciar las instacias
-    incorrectas de las de espera.  Además, el modelo también tiene dificultades
-    para diferenciar las instancias correctas de los frames de espera. Esto
-    puede deberse a la baja diferencia que existe entre los frames de estas
-    clases. A pesar de que la clase espera se creó para ayudar al modelo a
-    seleccionar los frames relevantes para la clasificación, se han obtenido
-    los resultados opuestos.
+    Al observar la matriz de confusión de los modelos entrenados (\textit{fig.}
+    \ref{mc1} y \ref{mc2}), se puede apreicar una gran diferencia entre
+    modelos.El modelo binario es capaz de obtener una baja tasa de falsos
+    negativos, pero tiene algunas dificultades diferenciando las instancias
+    negativas de las positivas. El modelo ternario, por otro lado es incapaz
+    de diferenciar las instacias incorrectas de las de espera.  Además, el
+    modelo también tiene dificultades para diferenciar las instancias correctas
+    de los frames de espera. Esto puede deberse a la baja diferencia que existe
+    entre los frames de estas clases. A pesar de que la clase espera se creó
+    para ayudar al modelo a seleccionar los frames relevantes para la
+    clasificación, se han obtenido los resultados opuestos.
 
     \begin{figure}[H]
     \includegraphics[width=0.75\textwidth]{confusion_matrix2.png}
@@ -978,7 +975,12 @@ hmargin=3cm
     utilizados en el entrenmaiento y los vídeos recopilados por el grupo de
     investigación. Para solucionar este problema, sería necesario recopilar y
     etiquetar nuevos datos con mayor variación. Esta tarea requeriría de mayor
-    tiempo y recursos.
+    tiempo y recursos. Adicionalmente, se presenta el problema de la
+    clasificación de secuencias. Mientras que YOLO trata los fotogramas de
+    forma independinete, ortorgando a la secuencia la clase mayoritaria de los
+    mismos, sería interesante explorar modelos que sí puedan trabajar con
+    secuencias completas. En el apartado de trabajos futuros se explorará más
+    esta alternativa.
 
     \section{Detección del balón}
 
@@ -1053,24 +1055,50 @@ hmargin=3cm
     permitir una mejor generalización de los modelos.
 
     Por último, la clasificación de secuencias completas en lugar de fotogramas
-    individuales. Pese a que se aprecia potencial en la clasificación por
-    fotogramas, explorar la posibilidad de desarrollar un clasificador de
-    secuencias que encuentre y entienda las relaciones entre imágenes es un
-    reto que no se ha podido resolver durante este proyecto.
+    individuales presenta una problemática. Pese a que se aprecia potencial en
+    la clasificación por fotogramas, explorar la posibilidad de desarrollar un
+    clasificador de secuencias que encuentre y entienda las relaciones entre
+    imágenes y conserve el contexto entre fotogramas es un reto que no se ha
+    podido resolver durante este proyecto. Para ello se propone el uso de redes
+    neuronales LSTM~\cite{Hochreiter1997LongSM}, ya que han demostrado ser de
+    gran ayuda para el reconocimiento de acciones en vídeo, como se puede ver
+    en el trabajo desarrollado por Mostafa S. Ibrahim et
+    al.~\cite{Ibrahim_2016_CVPR}.
     
 
     \chapter{Conclusiones}
     \label{chap:conclusion}
 
-    Los modelos elaborados, pese a tener un rendimiento por debajo de lo deseable, muestran el gran potencial de la inteligencia artificial para cubrir las necesidades en el mundo del deporte. Sin embargo, también muestran la necesidad de una mayor inversión en investigación y exploración de otros métodos. De la mano con otros autores, durente este proyecto se ha demostrado que la IA puede automatizar muchos procesos que antes se creían imposible, abaratando costes y facilitando el desarrollo de actividades profesionales en deportes minoritarios. 
+    Los modelos elaborados, pese a tener un rendimiento por debajo de lo
+    deseable, muestran el gran potencial de la inteligencia artificial para
+    cubrir las necesidades en el mundo del deporte. Sin embargo, también
+    muestran la necesidad de una mayor inversión en investigación y exploración
+    de otros métodos. De la mano con otros autores, durente este proyecto se ha
+    demostrado que la IA puede automatizar muchos procesos que antes se creían
+    imposible, abaratando costes y facilitando el desarrollo de actividades
+    profesionales en deportes minoritarios. 
 
-    También es destacable la importancia de la potencia de cómputo en el entrenamiento de modelos complejos. Este ha sido el principal limitante de este proyecto. No obstante, en un contexto con mayores recursos la metodología descrita en este documento podría demostrar un mayor rendimiento gracias a un entrenamiento más extenso y completo.
+    También es destacable la importancia de la potencia de cómputo en el
+    entrenamiento de modelos complejos. Este ha sido el principal limitante de
+    este proyecto. No obstante, en un contexto con mayores recursos la
+    metodología descrita en este documento podría demostrar un mayor
+    rendimiento gracias a un entrenamiento más extenso y completo.
 
-    Por último, cabe resaltar que el principal problema encontrado en los modelos de clasificación es la poca capacidad de generalización. Esto es un ámbito multifactorial que requiere de una mayor exploración para alcanzar un mejor rendimiento a través de la optimización de hiperparámetros o de la aplicación del conjunto de entrenamiento.
+    Por último, cabe resaltar que el principal problema encontrado en los
+    modelos de clasificación es la poca capacidad de generalización. Esto es un
+    ámbito multifactorial que requiere de una mayor exploración para alcanzar
+    un mejor rendimiento a través de la optimización de hiperparámetros o de la
+    aplicación del conjunto de entrenamiento.
 
-    En cuanto al modelo de seguimiento de balón, se ha logrado desarrollar un modelo que funciona adecuadamente en contextos de entrenamiento. Esto tiene un gran potencial como asistencia a entrenadores y técnicos en el voleibol. Adicionalmente, cabría esperar que un mejor entrenamiento con un set de datos más extenso podría dar muy buenos resultados.
+    En cuanto al modelo de seguimiento de balón, se ha logrado desarrollar un
+    modelo que funciona adecuadamente en contextos de entrenamiento. Esto tiene
+    un gran potencial como asistencia a entrenadores y técnicos en el voleibol.
+    Adicionalmente, cabría esperar que un mejor entrenamiento con un set de
+    datos más extenso podría dar muy buenos resultados.
 
-    Por último, nos gustaría terminar este proyecto agradeciendo a las jugadoras María Ortega y Marta Jiménez su colaboración en la grabación de vídeos en los entrenamientos.
+    Por último, nos gustaría terminar este proyecto agradeciendo a las
+    jugadoras María Ortega y Marta Jiménez su colaboración en la grabación de
+    vídeos en los entrenamientos.
 
     %----------
     %    BIBLIOGRAFÍA
