@@ -40,6 +40,7 @@ hmargin=3cm
 \definecolor{gray45}{gray}{.45}
 
 \usepackage{tikz}
+\usetikzlibrary{positioning, babel}
 \usepackage{pgfplots}
 % Soporte para GENERAR PDF/A --es importante de cara a su inclusión en e-Archivo porque es el formato óptimo de preservación y a la generación de metadatos, tal y como se describe en http://uc3m.libguides.com/ld.php?content_id=31389625. En la carpeta incluímos el archivo plantilla_tfg_2017.xmpdata en el que puedes incluir los metadatos que se incorporarán al archivo PDF cuando lo compiles. Ese archivo debe llamarse igual que tu archivo .tex. Puedes ver un ejemplo en esta misma carpeta.
 \usepackage[a-1b]{pdfx}
@@ -391,7 +392,7 @@ hmargin=3cm
     detección de objetos suelen dividirse en dos pasos: reconocimiento de
     objetos y clasificación de estos. La realización de estos dos pasos
     requiere de un tiempo y poder computacional adicional, siendo estos siempre
-    secuenciale. YOLO, sin embargo, cuenta con la habilidad de realizar el
+    secuenciales. YOLO, sin embargo, cuenta con la habilidad de realizar el
     reconocimiento y clasificación al mismo tiempo, lo cual lo determina como
     una de las mejores opciones en tareas de reconocimiento en tiempo real. Es
     por esto junto con la facilidad de entrenamiento y uso que proporciona
@@ -401,7 +402,7 @@ hmargin=3cm
     La inteligencia aritificial ha tenido una gran evolución en los últimos
     años, expandiéndo su uso a diferentes áreas nunca antes imaginadas. El
     mundo del deporte no ha sido una excepción, siendo la IA una herramienta de
-    gran potencial para el la comprensión profunda del rendimiento
+    gran potencial para la comprensión profunda del rendimiento
     deportivo~\cite{ia-sport}. Algunos ejemplos de su uso son el análisis de
     imágenes 3D para la mejora del rendimiento deportivo~\cite{analysis3d} o la
     planificación de cargas~\cite{wl}. 
@@ -590,12 +591,12 @@ hmargin=3cm
     Además, ha sido necesario modificar la segunda base de datos para incluir
     el tamaño de la \textit{bounding box} para cada balón. Esto último se ha
     hecho a través de un programa de \texttt{Python}. Se ha escogido un 
-    tamaño genérico igual para todas las instancias ($20px\times20px$).
+    tamaño genérico igual para todas las instancias ($20\text{px}\times20\text{px}$).
 
-    Las secuencias se han separado en dos carpetas, cada una conteniendo las
-    imágenes de cada una de las clases. Adicionalmente, para cada carpeta se
-    han dividido las secuencias en subconjuntos de entrenamiento y evaluación.
-    Para esto se ha usado un programa en \texttt{Python}.
+    Las secuencias se han separado en dos carpetas, cada una conteniendo los
+    frames las secuencias de los subconjuntos de entrenamiento y evaluación.
+    Adicionalmente, para cada carpeta se han dividido los frames en subconjuntos
+    para cada una de las clases. Para esto se ha usado un programa en \texttt{Python}.
 
     Adicionalmente se ha creado una clase más denominada \textit{wait} para
     aquellos frames que no aporten información relativa al tipo de acción. Se
@@ -606,32 +607,65 @@ hmargin=3cm
     Los datos cuentan con un desbalanceo muy fuerte hacia la clase positiva: tan
     solo un $2.59\%$ de las instancias están etiquetadas como negativas. Debido
     a esto, se ha decidido realizar tanto un \textit{oversampling} de la clase
-    minoritaria como un \textit{undersampling} de la clase mayoritaria. Para la
-    realización del \textit{undersampling}, se ha decidido eliminar un $50\%$ de
-    las instancias de la clase positiva, seleccionadas aleatoriamente.
+    minoritaria como un \textit{undersampling} de la clase mayoritaria. 
+
+    \subsection{Oversampling}
 
     Para el oversampling se ha usado la librería de python
-    Albumentations~\cite{albumentations} que permite realizar aumento de
-    imágenes para crear nuevas instancias. Esta librería utiliza redes
-    neuronales profundas para aplicar transformaciones a una imagen dada.  Se
-    ha realizado un código python que toma todas las imágenes de una carpeta y
-    aplica a cada una serie de transformaciones. Esto se logra generando un
-    número aleatorio entre uno y nueve que se inserta en una \textit{pipeline}
-    que utiliza el comando de Albumentations \textit{SomeOf}, que contiene una
-    lista de veinte posibles transformaciones de las cuales se aplicará el
-    número obtenido previamente. Se ha decidido castigar números altos de
-    transformaciones ya que realizar demasiadas de estas puede llevar a obtener
-    una imagen demasiado distorsionada. Esto se ha realizado asignando a cada
-    transmación cierta probabilidad de aplicarse, siendo 1 que siempre se
-    aplica y 0 que nunca. Cuando el número de transformaciones elegido es de 1
-    a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
+    Albumentations~\cite{albumentations}, que permite aplicar transformaciones a imágenes
+    para crear nuevas instancias, mediante el uso de redes neuronales profundas.
+    
+    Para generar nuevas instancias se han aplicado entre 1 y 9 transformaciones
+    seleccionadas de forma aleatoria a cada imagen, generando 4
+    nuevas instancias por cada secuencia. Para ello se ha elaborado un código
+    python que toma todas las imágenes de una carpeta y aplica este proceso a
+    cada una.
+
+    El proceso seguido para cada imagen es el siguiente: 
+    \begin{enumerate}
+        \item Generación aleatoria de un número entre 1 y 9: este número respresenta el número de transformaciones que se aplicarán a la imagen.
+        \item Aplicación de las transformaciones: mediante la función \texttt{SomeOf} se aplica un subconjunto de las 20 transformaciones seleccionadas.
+    \end{enumerate}
+    Estas operaciones se repiten 4 veces para cada imagen. Con el fin de
+    facilitar la replicación, además de incluir el código en el anexo, se ha
+    usado la semilla $1492$. Esta semilla se ha aumentado en 1 para cada
+    ejecución.
+
+    Adicionalmente, se han castigado números altos de transformaciones debido a
+    que podrían generar imágenes demasiado distorsionadas y, por tanto, no
+    óptimas para el entrenamiento. Para ello se ha añadido una probabilidad a
+    la aplicación de una transformación como se describe a continuación:
+
+    \begin{table}[H]
+    \centering
+        \begin{tabular}{cc}
+        \toprule
+        \textbf{\# transformaciones} & \textbf{Probabilidad} \\
+        \midrule
+        Entre 1 y 3 & 1.0\\
+        Entre 4 y 5 & 0.6\\
+        Entre 6 y 9 & 0.3\\
+        \bottomrule
+        \end{tabular}
+    \caption{Probabilidad según el número de transformaciones}
+    \end{table}
+
+%    número aleatorio entre uno y nueve que se inserta en una \textit{pipeline}
+%    que utiliza el comando de Albumentations \textit{SomeOf}, que contiene una
+%    lista de veinte posibles transformaciones de las cuales se aplicará el
+%    número obtenido previamente. Se ha decidido castigar números altos de
+%    transformaciones ya que realizar demasiadas de estas puede llevar a obtener
+%    una imagen demasiado distorsionada. Esto se ha realizado asignando a cada
+%    transmación cierta probabilidad de aplicarse, siendo 1 que siempre se
+%    aplica y 0 que nunca. Cuando el número de transformaciones elegido es de 1
+%    a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
 
     A pesar de existir un gran número de transformaciones en la librería
-    Albumentations se ha decidido usar solo 20 de estas. Esto se debe a que se
-    ha considerado que el resto llevarían a instancias que podrían ensuciar el
-    \textit{dataset} al no ser imagenes que se obtienen normalmente en el
-    voleibol, como transformaciones de colores invertidos o de simulación de
-    nieve.  Las transformaciones seleccionadas finalmente son las siguientes:
+    Albumentations se han seleccionado únicamente 20 de estas. Esto se debe a
+    que muchas transformaciones generan instancias demasiado alejadas de las
+    condiciones habituales en los centros deportivos (e.g. simulación de nieves
+    o inversión de color), lo que podría ensuciar el conjunto de datos. A
+    continuación se enumeran las transformaciones seleccionadas:
 
     \begin{enumerate} \item \textbf{CLAHE:} esta transformación, cuyas siglas
     significan \textit{Contrast Limited Adaptive Histogram Equalization},
@@ -645,8 +679,8 @@ hmargin=3cm
     \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el
     tono, que pueden cambiar dependiendo de factores como la iluminación. Por
     esto se ha considerado una transformación posible aunque el rango de
-    transformación del tono definido es muy pequeño ya que se quería simular
-    cambios ligeros por iluminación o calibración de la cámara no camabios
+    transformación del tono definido es muy pequeño, ya que se quería simular
+    cambios ligeros por iluminación o calibración de la cámara y no cambios
     grandes no comunes.
     \item \textbf{Downscale:} reduce la calidad de la
     imagen reduciendo su tamaño y volviendo a aumentarlo.  Variaciones de
@@ -662,7 +696,7 @@ hmargin=3cm
     naturalmente debido a ajustes de la cámara.
     \item \textbf{GaussNoise:}
     inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen,
-    sobretodo si no es de mucha calidad, puede tener ruido naturalmente, esta
+    sobretodo si no es de mucha calidad, puede tener ruido naturalmente, y esta
     transformación imita esto.
     \item \textbf{HorizontalFlip:} refleja la foto
     sobre su eje vertical, creando nuevas instancias que son iguales a las
@@ -676,7 +710,7 @@ hmargin=3cm
     principales del ruido ISO: cambios aleatorios en el tono de los colores y
     variaciones aleatorias en intensidad de los pixeles.
     \item \textbf{ImageCompression:} decrementa la calidad de la imagen
-    comprimiendola a un formato "jpeg". Simula casos en los que las imagenes
+    comprimiéndola a un formato ``\verb!jpeg!''. Simula casos en los que las imagenes
     son de peor calidad.
     \item \textbf{Morphological:} aumenta el grosor de
     zonas blancas de la imagen, simulando una mayor iluminazión de la zona.
@@ -703,82 +737,370 @@ hmargin=3cm
     hace borrosos los limites de los objetos de una imagen. En este caso se
     aplica porque simula como sería una imagen si la cámara estuviera
     desenfocada.
-    \item \textbf{Sharpen:} utiliza interpolado para "afilar" la
+    \item \textbf{Sharpen:} utiliza interpolado para ``afilar'' la
     imagen. Hace que los bordes sean más pronunciados pero como efecto
     secundario lleva a que se pierda calidad de la imagen.
     \end{enumerate}
 
+    \subsection{Undersampling}
+
+    Se ha menguado el conjunto de datos de instancias positivas en un 50\%. Esto permite una mayor proporción de instnacias negativas, mantiendo una gran representatibidad de la clase positiva.
+
+    \subsection{Resultados}
+
+    Gracias a este proceso se ha conseguido pasar de una proporción menor al 3\% de instancias negativas a una proporción superior al 20\%. En los siguientes diagramas se puede apreciar visualmente la distribución de los datos: 
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=0.9\textwidth]{datos-prev.jpg}
+    \caption  {\small{Distribución previo al proceso de oversampling y undersampling}}
+    \end{figure}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=\textwidth]{datos-post.jpg}
+    \caption  {\small{Distribución posterior al proceso de oversampling y undersampling}}
+    \end{figure}
+\end{minipage}
+
     \section{Entrenamiento: modelos de YOLO}
 
-    Durante el entrenamiento se crean tres modelos distintos mediante el uso
-    del algoritmo ``You Only Look Once'' (YOLO), basado en redes de
-    neuronas convolucionales. Dos de estos modelos buscarán clasificar videos
-    en jugadas correctas o erróneas, mientras que el tercero pretende detectar
-    la pelota y seguirla en estos videos. Con esto se pretende crear un
-    pipeline final que produzca un video en el que se pueda seguir el balón al
-    mismo tiempo que aparezca su clasificación en una jugada correcta o
-    incorrecta.  Se ha decidido utilizar YOLO por la facilidad, rapidez y
-    precisión que este proporciona para crear modelos propios de detección y
-    clasificación de imágenes, siendo una de las tecnologías principales en el
-    área del Computer Vision. Permite crear modelos fácilmente entrenables de
-    manera rápida y eficiente{bibliografia} con imágenes propias con la simple
-    restricción de una estructura de ficheros específica. Esta estructura
-    divide los datos en carpetas de entrenamiento, test y, de manera opcional,
-    validación. La estructura interna de estas carpetas variará dependiendo del
-    tipo de modelo que se vaya a utilizar, en este caso clasificación o
-    detección, que serán explicadas a continuación.  Cabe destacar que en el
-    entrenamiento de todos los modelos se han utilizado 100 epochs,
-    considerando esto un número correcto por conseguir suficiente precisión sin
-    sacrificar el tiempo de entrenamiento, el cual es limitado por la falta de
-    máquinas complejas dedicadas.
-    
+    Durante el entrenamiento se han creado tres modelos distintos mediante el
+    uso del algoritmo ``You Only Look Once'' (YOLO){biblio}, basado en redes de
+    neuronas convolucionales. Dos de estos modelos buscan clasificar videos en
+    jugadas correctas o erróneas, mientras que el tercero pretende detectar la
+    pelota y seguirla en estos videos. Se ha decidido utilizar YOLO por la
+    facilidad, rapidez y precisión que este proporciona para crear modelos
+    propios de detección y clasificación de imágenes, siendo una de las
+    tecnologías principales en el área del Computer Vision. YOLO Permite crear
+    modelos fácilmente entrenables de manera rápida y eficiente{bibliografia}
+    con imágenes propias. Para ello es necesario dividir las imágenes en 2
+    directorios: uno de entrenamiento y otro de validación. Dentro de estos
+    directorios, la clase de cada imágen se indica separando las imágenes en un
+    subdirectorio para cada clase. La estructura interna de estas carpetas
+    variará dependiendo del tipo de modelo que se vaya a utilizar. Los modelos
+    han sido entrenados con 100 \textit{epochs} con el fin de lograr suficiente
+    precisión en un tiempo de entrenamiento limitado.
+
+    Tanto para el problema de clasificaicón como el de detección y seguimiento
+    se parte de un modelo preentrenado, al que se especializa a través del
+    entrenamiento con nuestros conjuntos de datos. Esto evita la necesidad de
+    crear un modelo completamente nuevo, facilitando el desarrollo y mejorando
+    los resultados. Es por esto que se trata de una práctica recomendada por
+    \textit{Ultralytics}.
+
     \subsection{Clasificación}
-    Para la creación de estos modelos se utiliza la tarea de clasificación
-    proporcionada por yolo{aqui tengo que poner biblio}, lo cual se determina
-    en la elección del modelo inicial. En este caso se utiliza un modelo pre
-    entrenado básico como base, ``yolo11n-cls.pt'', siendo esta la recomendación
-    para entrenamiento que no necesite de un modelo completamente nuevo. Esto
-    evita la necesidad de crear un modelo desde cero, siendo necesario sólo la
-    definición de las clases. Para  esto es necesario crear una carpeta de
-    imágenes para cada una de las clases dentro de las carpetas de
-    entrenamiento y test antes mencionadas. 
+    Para la clasificación de secuencias se ha partido desde el modelo
+    \texttt{yolo11n-cls.pt}~\cite{yolo11n-csl}, un modelo preentrenado para la
+    clasificación de fotogramas donde la clase de la secuencia será la clase
+    mayoritaria de sus fotogramas. Esto presenta una clara desventaja: los
+    fotogramas se clasifican de forma independiente. Esto se traduce en que el
+    modelo no buscará relación entre fotogramas y, por tanto, no identifica la
+    acción completa. Adicionalmente, la acción ocurre en apenas 8 fotogramas,
+    frente a los 41 que dura la secuencia, lo que podría provocar un desajuste
+    en la predicción.
     
-    Yolo presenta una desventaja principal en el problema de la clasificación
-    de videos: trabaja con fotogramas independientes, asignando a cada
-    fotograma de entrada una clase sin tener en cuenta la clasificación del
-    resto del video. Esto provoca que no exista una identificación de la acción
-    completa, lo cual se teoriza que puede causar problemas sobre todo en
-    acciones como las deportivas, en las que la diferencia entre una jugada
-    correcta y una incorrecta se define en dos o tres fotogramas claves. Por
-    esto, se plantean dos aproximaciones a la clasificación de videos:
+    Con el fin de mermar todo lo posible este problema, se han trabajado con
+    dos aproximaciones diferentes para la clasificación: 
+
+%    En este caso se utiliza un modelo preentrenado como base,
+%    ``yolo11n-cls.pt''~\cite{yolo11n-csl}, siguiendo la recomendación de Ultralytics para el
+%    entrenamiento de YOLO. Esto evita
+%    la necesidad de crear un modelo desde cero, siendo necesario sólo la
+%    definición de las clases. Para  esto es necesario crear una carpeta de
+%    imágenes para cada una de las clases dentro de las carpetas de
+%    entrenamiento y test antes mencionadas. 
+%    
+%    Yolo presenta una desventaja principal en el problema de la clasificación
+%    de videos: trabaja con fotogramas independientes, asignando a cada
+%    fotograma de entrada una clase sin tener en cuenta la clasificación del
+%    resto del video. Esto provoca que no exista una identificación de la acción
+%    completa, lo cual se teoriza que puede causar problemas sobre todo en
+%    acciones como las deportivas, en las que la diferencia entre una jugada
+%    correcta y una incorrecta se define en dos o tres fotogramas claves. Por
+%    esto, se plantean dos aproximaciones a la clasificación de videos:
 
     \begin{enumerate}
         \item \textbf{Modelo de clasificación binario:} con clases ``correct'' y ``wrong'', que dividen todas las jugadas dependiendo de la corrección de estas.
-        \item \textbf{Modelo de tres clases:} Con una clase adicional correspondiente con los momentos de espera antes y después del instante clave de la jugada.
+        \item \textbf{Modelo de tres clases:} Con una clase adicional correspondiente con los momentos de espera antes y después de la acción.
     \end{enumerate}
-    Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
+
+    Con el segundo modelo se busca agrupar los fotogramas donde no ocurre la
+    acción en una tercera clase que \textbf{no se tomará en cuenta} para la
+    clasificación de la secuencia. De esta forma se espera poder construir un
+    modelo más robusto y fiel a la realidad.
+
+    Con todo lo anterior, las clases de cada modelo qeudan representadas por la siguiente estructura de ficheros:
+
+    \begin{figure}[H]
+        \includegraphics[width=0.4\textwidth]{folders_binario.jpeg}
+        \hspace{0.3cm}
+        \includegraphics[width=0.4\textwidth]{folders_ternario.jpg}
+        \caption {Organización de directorios para clasificación}
+    \end{figure}
+
+%    Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
     
     \subsection{Detección de objetos}
-    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes. 
-    Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo ``yolo11n.pt''. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional ``data.yaml'' que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
+    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO{aqui tengo que poner biblio}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Esto sirve de ayuda visual a estadisticos o analistas de partidos sobre todo en competiciones masculinas, donde la bola puede alcanzar velocidades de hasta 140 km/h. 
+
+    Como primera aproximación, se intentó usar el segundo conjunto de datos presentado anteriormente. Sin embargo, la limitación en potencia de cómputo de nuestras máquinas hacía de este algo imposible por la gran duración del proceso de entrenamiento. En consecuencia, se ha empleado el tercer conjunto de datos. Este conjunto presenta además otras ventajas como es la mayor variabilidad de condiciones en las imágenes (luminosidad, contraste, fondos...), que se asemejan más a las condiciones que se puenden encontrar en pabellones comunes de competiciones de bajo nivel.
+
+    Siguiendo el mismo proceso que para la clasificación, se ha partido de un modelo preentrenado para la detección y seguimiento de objetos: \texttt{yolo11n.pt}~\cite{yolo11n}. Para su correcto funcionamiento se han dividido las imágenes en dos directorios, \textit{train} y \textit{test}, y se han definido las características específicas de nuestro modelo en el fichero \textit{data.yaml}. 
+
+    % Para esto se consideró la creación de un modelo completamente nuevo a través de la anotación de la posición de la pelota en todos los fotogramas de los videos. Sin embargo, esta tarea se consideró demasiado compleja para el alcance de la práctica, siendo necesario anotar más de diez mil imágenes.
+    %Por ello, para este modelo se ha buscado un modelo personalizado para la detección de pelotas de voleibol ya creado. Se ha encontrado así un conjunto de imágenes ya anotadas con alrededor de mil ejemplos de pelotas de voleibol en entornos y calidades completamente diferentes{aqui también biblio}. Esta se considera una buena base para el modelo de detección que se quiere lograr, que utilizará estos datos por encima de un modelo preentrenado de yolo ``yolo11n.pt''. En este caso las imágenes solo necesitan estar dentro de las carpetas de entrenamiento y test, pero se añade un fichero adicional ``data.yaml'' que define el objeto a encontrar además de la ruta de las carpetas usadas en el entrenamiento. 
     
 
     \section{Evaluación}
-    - Tras clasificar cada fotograma por separado, el video corresponde con la clase mayoritaria. En el caso de tres clases "waiting" será contada en el porcentaje pero no en la clasificación final. Se consigue información de número de fotogramas clasificados como correctos e incorrectos, el porcentaje que representan del total, así como la confianza media del modelo en total del video.
-    - Si existe el mismo número de instancias positivas y negativas se considera el resultado como no concluyente.
-    - Matriz de confusión, comprobar los falsos positivos o negativos, importancia minimizar los falsos incorrectos, pues esto son los más dañinos al considerar una acción correcta como erronea.
-    - Información de precisión proporcionada por YOLO, contiene información del mejor modelo durante el entrenamiento. Utiliza Loss, buena métrica para comprobar como de malas son las predicciones, se busca minimizar.
-    - Utilización de videos completamente independientes a los videos de entrenamiento grabados por el grupo, que son una buena opción para probar la capacidad de generalización del modelo.
 
+    Para la evaluación se emplearán dos medidas, principalemente. La primera,
+    la función \textit{Loss}, que mide como de mala es una predicción. La
+    segunda, la matriz de confusión, muestra los valores predichos para cada
+    una de las clases. En esta última, trataremos de reducir los falsos
+    negavitos. También se emplearán los datos de salida de YOLO, que incluyen
+    la clasificación de cada fotograma, el nivel de confianza medio, el
+    porcentaje de cada clase sobre el total de fotogramas y la precisión del
+    modelo.
+
+    Adicionalmente, se han recogido vídeos de un equipo femenino de categoría
+    juvenil durante un entrenamiento con el fin de enfrentar al modelo a un
+    caso de uso real y comprobar su capacidad de generalización a otras categorías.
+%
+%    - Tras clasificar cada fotograma por separado, el video corresponde con la clase mayoritaria. En el caso de tres clases "waiting" será contada en el porcentaje pero no en la clasificación final. Se consigue información de número de fotogramas clasificados como correctos e incorrectos, el porcentaje que representan del total, así como la confianza media del modelo en total del video.
+%
+%    - Si existe el mismo número de instancias positivas y negativas se considera el resultado como no concluyente.
+%
+%    - Matriz de confusión, comprobar los falsos positivos o negativos, importancia minimizar los falsos incorrectos, pues esto son los más dañinos al considerar una acción correcta como erronea.
+%
+%    - Información de precisión proporcionada por YOLO, contiene información del mejor modelo durante el entrenamiento. Utiliza Loss, buena métrica para comprobar como de malas son las predicciones, se busca minimizar.
+%
+%    - Utilización de videos completamente independientes a los videos de entrenamiento grabados por el grupo, que son una buena opción para probar la capacidad de generalización del modelo.
+%
 
     \chapter{Análisis de resultados}
     \label{chap:resultados}
 
+    \section{Evaluación de secuencias}
+
+    Durante el proceso de entrenamiento YOLO genera una serie de estadísticas
+    recogidas en los siguientes gráficos:
+
+ \begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=\textwidth]{results2.png}
+    \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación binario}}
+    \end{figure}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+    \includegraphics[width=\textwidth]{results3.png}
+    \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación ternario}}
+    \end{figure}
+\end{minipage}
+   
+    Se puede apreciar que, mientras que el modelo binario ha conseguido
+    alcanzar un óptimo local con 100 \textit{epochs}, el modelo ternario
+    mantenía una tendencia de mejora. Esto significa que su rendimiento podría
+    mejorar con un entrenamiento más largo.
+
+    Al observar la matriz de confusión de los modelos entrenados (\textit{fig.}
+    \ref{mc1} y \ref{mc2}), se puede apreicar una gran diferencia entre
+    modelos.El modelo binario es capaz de obtener una baja tasa de falsos
+    negativos, pero tiene algunas dificultades diferenciando las instancias
+    negativas de las positivas. El modelo ternario, por otro lado es incapaz
+    de diferenciar las instacias incorrectas de las de espera.  Además, el
+    modelo también tiene dificultades para diferenciar las instancias correctas
+    de los frames de espera. Esto puede deberse a la baja diferencia que existe
+    entre los frames de estas clases. A pesar de que la clase espera se creó
+    para ayudar al modelo a seleccionar los frames relevantes para la
+    clasificación, se han obtenido los resultados opuestos.
+
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{confusion_matrix2.png}
+    \caption  {Matriz de confusión del modelo de clasificación binario}
+    \label{mc1}
+    \end{figure}
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{confusion_matrix3.png}
+    \caption  {Matriz de confusión del modelo de clasificación ternario}
+    \label{mc2}
+    \end{figure}
+
+%    Como ya se explicó, se han probado los modelos con nuevos vídeos recopilados
+%    durante un entrenamiento. Los resultados de esto se pueden ver en la
+%    siguiente tabla. Para cada entrenamiento, YOLO genera dos modelos: el modelo
+%    con el mejor error encontrado durante el entrenamiento, y el modelo
+%    entrenado en el último \textit{epoch}. Se han probado ambos modelos para
+%    comprobar si hay alguna diferencia, y en caso afirmativo cual generaliza
+%    mejor. Cabe destacar que en el caso de los modelos ternarios, los frames
+%    clasificados con la clase de espera no se tienen en cuenta para determinar
+%    la clase mayoritaria y por lo tanto el resultado. Esto puede llevar a
+%    resultados no concluyentes cuando se clasifica la misma cantidad de frames
+%    con la clase correcta e incorrecta, lo cual suele ocurrir cuando todos los
+%    frames se etiquetan con la clase de espera.
+    
+    Al enfrentar ambos modelos frente a vídeos en un entrenamiento real se han
+    obtenido los resultados recogidos en la siguietne tabla. Es importante
+    destacar que YOLO genera dos modelos, uno con el mejor resultado del
+    entrenamiento y otro entrenado con el último \textit{epoch}.
+
+    \begin{table}[H]
+        \center
+        \begin{tabular}{@{}ccccc@{}}
+            \toprule
+             & \multicolumn{2}{c}{Modelo binario} & \multicolumn{2}{c}{Modelo ternario} \\
+            \cmidrule(lr){2-3} \cmidrule(l){4-5}
+            Clase real & Mejor modelo & Último modelo & Mejor modelo & Último modelo \\
+            \midrule
+            Correcto   & Incorrecto & Correcto   & No concluyente & Incorrecto \\
+            Correcto   & Incorrecto & Incorrecto & No concluyente & No concluyente \\
+            Incorrecto & Incorrecto & Correcto   & No concluyente & No concluyente \\
+            Correcto   & Incorrecto & Correcto   & Incorrecto     & Incorrecto \\
+            Correcto   & Incorrecto & Correcto   & Incorrecto     & No concluyente \\
+            Incorrecto & Incorrecto & Correcto   & No concluyente & No concluyente \\
+            \midrule
+            Tasa de acierto & 33 \% & 50 \% & 0 \% & 0 \% \\
+            \bottomrule
+        \end{tabular}
+        \caption{Resultados de los modelos de clasificación en secuencias nuevas}
+    \end{table}
+
+    Tal y como se muestra en la tabla, los resultados de la predicción son
+    malos. En el mejor de los casos se logra una precisión del 50\%. En cambio,
+    para el modelo de 3 clases se obtiene una precisión del 0\%. Estos
+    resultados indican que, aunque el modelo ha obtenido un buen rendimiento en
+    el conjunto de \textit{test}, no ha sido capaz de generalizar a nuevas
+    instancias. Esto puede deberse a a la gran diferencia entre los vídeos
+    utilizados en el entrenmaiento y los vídeos recopilados por el grupo de
+    investigación. Para solucionar este problema, sería necesario recopilar y
+    etiquetar nuevos datos con mayor variación. Esta tarea requeriría de mayor
+    tiempo y recursos. Adicionalmente, se presenta el problema de la
+    clasificación de secuencias. Mientras que YOLO trata los fotogramas de
+    forma independinete, ortorgando a la secuencia la clase mayoritaria de los
+    mismos, sería interesante explorar modelos que sí puedan trabajar con
+    secuencias completas. En el apartado de trabajos futuros se explorará más
+    esta alternativa.
+
+    \section{Detección del balón}
+
+    Durante la evaluación del modelo de detección del balón, se han encontrado
+    varios problemas. En el conjunto de \textit{test}, encontrar el balón tiene
+    una alta complejidad debido a la gran velocidad del mismo, lo que hace que
+    aparezca borroso en los vídeos, su tamaño que hace que sea fácil de
+    confundir con el fondo de los vídeos o los espectadores, y la existencia de
+    iconos similares al balón en los vídeos. La siguiente figura muestra un
+    ejemplo de este último problema.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            \node (img) at (0,0) {\includegraphics[width=0.9\linewidth]{falso_positivo_icono.jpeg}};
+            \node[] (txt) at (2.25, 4.5) {Bola real};
+            \draw[red, very thick, ->] (txt.south) -- (2.25, 0.7);
+        \end{tikzpicture}
+        \caption{Ejemplo de falso positivo debido a un icono en el vídeo}
+    \end{figure}
+
+    En los casos reales, en los que la bola se puede ver más fácilmente, el
+    modelo confunde fuentes de luz con balones, como se
+    puede ver en la siguiente figura. Cabe destacar que estos falsos positivos
+    tienen una baja confianza.
+
+    \begin{figure}[H]
+    \includegraphics[width=0.75\textwidth]{bola1.png}
+    \caption{Falso positivo con baja confianza}
+    \end{figure}
+
+    Para solucionar esto, se ha añadido un umbral mínimo a la confianza
+    necesaria para detectar un balón. Esto mejora los resultados, pero sigue
+    habiendo falsos positivos con alta confianza en algunos casos,
+    particularmente alrededor de fuentes de luz. Sin embargo, estos fallos
+    podrían corregirse con un proceso de entrenamiento más exhaustivo.
+
+    \begin{minipage}{0.45\textwidth}
+        \begin{figure}[H]
+        \includegraphics[width=\textwidth]{bola2.png}
+        \caption{Falso positivo con alta confianza}
+        \end{figure}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}{0.45\textwidth}
+        \begin{figure}[H]
+        \includegraphics[width=\textwidth]{bola3.png}
+        \caption{Detección sin falsos positivos}
+        \end{figure}
+    \end{minipage}
+
     \chapter{Trabajos futuros}
     \label{chap:future}
 
+    De cara a la expansión de este proyecto y el desarrollo de futuros modelos
+    más completos, destacan varios retos que están pendientes de resolver.
+
+    Primero, el reconocimiento de otros elementos del juego como jugadores,
+    superficie de juego o árbitros; de la mano con la mejora en el seguimiento
+    del balón. Esto permitiría análisis más completos de los partidos y
+    facilitaría tareas como el análisis de los sistemas de defensa o bloqueo,
+    transiciones entre fases del juego o extracción de características de
+    equipos. Además, sería un primer paso de cara a la automatización del
+    análisis de partido, extrayendo cualidades clave del juego en forma de
+    datos organizados y fácilmente procesables.
+
+    Segundo, la mejora de la precisión de la clasificación. Esto permitiría la
+    toma de estadísticas de forma automática, resolviendo o facilitando la
+    situación de clubes de pocos recursos tanto en tiempo como económicos. Para
+    ello, se propone la construcción de un conjunto de datos más completo,
+    recolectando partidos de distintas categorías y niveles con el fin de
+    permitir una mejor generalización de los modelos.
+
+    Por último, la clasificación de secuencias completas en lugar de fotogramas
+    individuales presenta una problemática. Pese a que se aprecia potencial en
+    la clasificación por fotogramas, explorar la posibilidad de desarrollar un
+    clasificador de secuencias que encuentre y entienda las relaciones entre
+    imágenes y conserve el contexto entre fotogramas es un reto que no se ha
+    podido resolver durante este proyecto. Para ello se propone el uso de redes
+    neuronales LSTM~\cite{Hochreiter1997LongSM}, ya que han demostrado ser de
+    gran ayuda para el reconocimiento de acciones en vídeo, como se puede ver
+    en el trabajo desarrollado por Mostafa S. Ibrahim et
+    al.~\cite{Ibrahim_2016_CVPR}.
+    
+
     \chapter{Conclusiones}
     \label{chap:conclusion}
+
+    Los modelos elaborados, pese a tener un rendimiento por debajo de lo
+    deseable, muestran el gran potencial de la inteligencia artificial para
+    cubrir las necesidades en el mundo del deporte. Sin embargo, también
+    muestran la necesidad de una mayor inversión en investigación y exploración
+    de otros métodos. De la mano con otros autores, durente este proyecto se ha
+    demostrado que la IA puede automatizar muchos procesos que antes se creían
+    imposible, abaratando costes y facilitando el desarrollo de actividades
+    profesionales en deportes minoritarios. 
+
+    También es destacable la importancia de la potencia de cómputo en el
+    entrenamiento de modelos complejos. Este ha sido el principal limitante de
+    este proyecto. No obstante, en un contexto con mayores recursos la
+    metodología descrita en este documento podría demostrar un mayor
+    rendimiento gracias a un entrenamiento más extenso y completo.
+
+    Por último, cabe resaltar que el principal problema encontrado en los
+    modelos de clasificación es la poca capacidad de generalización. Esto es un
+    ámbito multifactorial que requiere de una mayor exploración para alcanzar
+    un mejor rendimiento a través de la optimización de hiperparámetros o de la
+    aplicación del conjunto de entrenamiento.
+
+    En cuanto al modelo de seguimiento de balón, se ha logrado desarrollar un
+    modelo que funciona adecuadamente en contextos de entrenamiento. Esto tiene
+    un gran potencial como asistencia a entrenadores y técnicos en el voleibol.
+    Adicionalmente, cabría esperar que un mejor entrenamiento con un set de
+    datos más extenso podría dar muy buenos resultados.
+
+    Por último, nos gustaría terminar este proyecto agradeciendo a las
+    jugadoras María Ortega y Marta Jiménez su colaboración en la grabación de
+    vídeos en los entrenamientos.
 
     %----------
     %    BIBLIOGRAFÍA
@@ -827,4 +1149,9 @@ hmargin=3cm
     \section*{Código Python para la división por carpetas}
     \label{div_carpetas}
     \lstinputlisting[language=Python]{../scripts/split_videos.py}
+
+    \phantomsection
+    \section*{Código Python para la realización del \textit{oversampling}}
+    \label{div_carpetas}
+    \lstinputlisting[language=Python]{../scripts/oversampling.py}
 \end{document}
