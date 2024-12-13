@@ -624,7 +624,10 @@ hmargin=3cm
         \item Generación aleatoria de un número entre 1 y 9: este número respresenta el número de transformaciones que se aplicarán a la imagen.
         \item Aplicación de las transformaciones: mediante la función \texttt{SomeOf} se aplica un subconjunto de las 20 transformaciones seleccionadas.
     \end{enumerate}
-    Estas operaciones se repiten 4 veces para cada imagen.
+    Estas operaciones se repiten 4 veces para cada imagen. Con el fin de
+    facilitar la replicación, además de incluir el código en el anexo, se ha
+    usado la semilla $1492$. Esta semilla se ha aumentado en 1 para cada
+    ejecución.
 
     Adicionalmente, se han castigado números altos de transformaciones debido a
     que podrían generar imágenes demasiado distorsionadas y, por tanto, no
@@ -879,13 +882,10 @@ hmargin=3cm
 
     \section{Evaluación de secuencias}
 
-    Las siguientes figuras muestras las estadísticas del entrenamiento de los
-    modelos generadas por YOLO. Como se puede ver, mientras que el modelo
-    binario ha conseguido alcanzar un óptimo local con 100 \textit{epochs}, el
-    modelo ternario todavía estaba mejorando al llegar a este límite. Esto
-    significa que su rendimiento podría mejorar con un entrenamiento más largo.
+    Durante el proceso de entrenamiento YOLO genera una serie de estadísticas
+    recogidas en los siguientes gráficos:
 
-\begin{minipage}{0.45\textwidth}
+ \begin{minipage}{0.45\textwidth}
     \begin{figure}[H]
     \includegraphics[width=\textwidth]{results2.png}
     \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación binario}}
@@ -898,52 +898,55 @@ hmargin=3cm
     \caption  {\small{Estadísticas del entrenamiento del modelo de clasificación ternario}}
     \end{figure}
 \end{minipage}
+   
+    Se puede apreciar que, mientras que el modelo binario ha conseguido
+    alcanzar un óptimo local con 100 \textit{epochs}, el modelo ternario
+    mantenía una tendencia de mejora. Esto significa que su rendimiento podría
+    mejorar con un entrenamiento más largo.
 
-    Las siguientes figuras muestas la matriz de confusión de los modelos
-    entrenados, generada por YOLO en el conjunto de entrenamiento. Como se puede
-    ver, el modelo binario es capaz de obtener una baja tasa de falsos
-    negativos, pero tiene algunas dificultades diferenciando las instancias
-    negativas de las positivas.
+    Al observar la matriz de confusión de los modelos entrenados (\textit{fig.} \ref{mc1} y \ref{mc2}), se puede
+    apreicar una gran diferencia entre modelos.
+
+    El modelo binario es capaz de obtener una baja tasa de falsos negativos,
+    pero tiene algunas dificultades diferenciando las instancias negativas de
+    las positivas.
 
     El modelo ternario, por otro lado es incapaz de diferenciar las instacias
     incorrectas de las de espera.  Además, el modelo también tiene dificultades
     para diferenciar las instancias correctas de los frames de espera. Esto
     puede deberse a la baja diferencia que existe entre los frames de estas
     clases. A pesar de que la clase espera se creó para ayudar al modelo a
-    seleccionar los frames relevantes para la clasificación, se han obtenido los
-    resultados opuestos.
+    seleccionar los frames relevantes para la clasificación, se han obtenido
+    los resultados opuestos.
 
     \begin{figure}[H]
     \includegraphics[width=0.75\textwidth]{confusion_matrix2.png}
     \caption  {Matriz de confusión del modelo de clasificación binario}
+    \label{mc1}
     \end{figure}
     \begin{figure}[H]
     \includegraphics[width=0.75\textwidth]{confusion_matrix3.png}
     \caption  {Matriz de confusión del modelo de clasificación ternario}
+    \label{mc2}
     \end{figure}
 
-    Como ya se explicó, se han probado los modelos con nuevos vídeos recopilados
-    durante un entrenamiento. Los resultados de esto se pueden ver en la
-    siguiente tabla. Para cada entrenamiento, YOLO genera dos modelos: el modelo
-    con el mejor error encontrado durante el entrenamiento, y el modelo
-    entrenado en el último \textit{epoch}. Se han probado ambos modelos para
-    comprobar si hay alguna diferencia, y en caso afirmativo cual generaliza
-    mejor. Cabe destacar que en el caso de los modelos ternarios, los frames
-    clasificados con la clase de espera no se tienen en cuenta para determinar
-    la clase mayoritaria y por lo tanto el resultado. Esto puede llevar a
-    resultados no concluyentes cuando se clasifica la misma cantidad de frames
-    con la clase correcta e incorrecta, lo cual suele ocurrir cuando todos los
-    frames se etiquetan con la clase de espera.
-
-    Como se puede ver, las predicciones son bastante malas, con una tasa de
-    acierto del 50 \% en el mejor de los casos y de un 0 \% para los modelos
-    ternarios. Estos resultados indican que, aunque el modelo ha sido capaz de
-    obtener un buen error en el conjunto de \textit{test}, no ha sido capaz de
-    generalizar a nuevos vídeos. Esto puede deberse a la gran diferencia entre
-    los vídeos utilizados para el entrenamiento y los recopilados en casos
-    reales. Para solucionar este problema, se necesitaría recopilar y etiquetar
-    muchos más datos con mayor variación, lo cual no se ha podido realizar por
-    limitaciones de recursos.
+%    Como ya se explicó, se han probado los modelos con nuevos vídeos recopilados
+%    durante un entrenamiento. Los resultados de esto se pueden ver en la
+%    siguiente tabla. Para cada entrenamiento, YOLO genera dos modelos: el modelo
+%    con el mejor error encontrado durante el entrenamiento, y el modelo
+%    entrenado en el último \textit{epoch}. Se han probado ambos modelos para
+%    comprobar si hay alguna diferencia, y en caso afirmativo cual generaliza
+%    mejor. Cabe destacar que en el caso de los modelos ternarios, los frames
+%    clasificados con la clase de espera no se tienen en cuenta para determinar
+%    la clase mayoritaria y por lo tanto el resultado. Esto puede llevar a
+%    resultados no concluyentes cuando se clasifica la misma cantidad de frames
+%    con la clase correcta e incorrecta, lo cual suele ocurrir cuando todos los
+%    frames se etiquetan con la clase de espera.
+    
+    Al enfrentar ambos modelos frente a vídeos en un entrenamiento real se han
+    obtenido los resultados recogidos en la siguietne tabla. Es importante
+    destacar que YOLO genera dos modelos, uno con el mejor resultado del
+    entrenamiento y otro entrenado con el último \textit{epoch}.
 
     \begin{table}[H]
         \center
@@ -966,11 +969,23 @@ hmargin=3cm
         \caption{Resultados de los modelos de clasificación en secuencias nuevas}
     \end{table}
 
+    Tal y como se muestra en la tabla, los resultados de la predicción son
+    malos. En el mejor de los casos se logra una precisión del 50\%. En cambio,
+    para el modelo de 3 clases se obtiene una precisión del 0\%. Estos
+    resultados indican que, aunque el modelo ha obtenido un buen rendimiento en
+    el conjunto de \textit{test}, no ha sido capaz de generalizar a nuevas
+    instancias. Esto puede deberse a a la gran diferencia entre los vídeos
+    utilizados en el entrenmaiento y los vídeos recopilados por el grupo de
+    investigación. Para solucionar este problema, sería necesario recopilar y
+    etiquetar nuevos datos con mayor variación. Esta tarea requeriría de mayor
+    tiempo y recursos.
+
     \section{Detección del balón}
+
     Durante la evaluación del modelo de detección del balón, se han encontrado
     varios problemas. En el conjunto de \textit{test}, encontrar el balón tiene
-    una alta complejidad debido a la gran velocidad del mismo, lo cual hace que
-    aparezca borroso en los vídeos, su pequeño tamaño, que hace que sea fácil de
+    una alta complejidad debido a la gran velocidad del mismo, lo que hace que
+    aparezca borroso en los vídeos, su tamaño que hace que sea fácil de
     confundir con el fondo de los vídeos o los espectadores, y la existencia de
     iconos similares al balón en los vídeos. La siguiente figura muestra un
     ejemplo de este último problema.
@@ -985,8 +1000,8 @@ hmargin=3cm
         \caption{Ejemplo de falso positivo debido a un icono en el vídeo}
     \end{figure}
 
-    En los casos reales, en los cuales la bola se puede ver más fácilmente, el
-    modelo confunde objetos del fondo y fuentes de luz con balones, como se
+    En los casos reales, en los que la bola se puede ver más fácilmente, el
+    modelo confunde fuentes de luz con balones, como se
     puede ver en la siguiente figura. Cabe destacar que estos falsos positivos
     tienen una baja confianza.
 
@@ -998,8 +1013,8 @@ hmargin=3cm
     Para solucionar esto, se ha añadido un umbral mínimo a la confianza
     necesaria para detectar un balón. Esto mejora los resultados, pero sigue
     habiendo falsos positivos con alta confianza en algunos casos,
-    particularmente alrededor de fuentes de luz. Esto se podría corregir un un
-    major entrenamiento, pero esto necesitaría mayor capacidad de cómputo.
+    particularmente alrededor de fuentes de luz. Sin embargo, estos fallos
+    podrían corregirse con un proceso de entrenamiento más exhaustivo.
 
     \begin{minipage}{0.45\textwidth}
         \begin{figure}[H]
