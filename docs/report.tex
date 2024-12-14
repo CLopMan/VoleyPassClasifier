@@ -382,7 +382,7 @@ hmargin=3cm
     reconocimiento de imágenes. Permite analizar inmensas cantidades de
     imágenes para encontrar patrones que permitan la clasificación o detección
     de objetos, tareas de la visión artificial en las que se va a centrar este
-    trabajo~\cite{VOULODIMOS2018}.
+    trabajo. ~\cite{VOULODIMOS2018} 
     
     En específico, se va a utilizar la familia de algoritmos YOLO,
     basados en el tipo de deep learning conocido como redes neuronales
@@ -395,12 +395,12 @@ hmargin=3cm
     secuenciales. YOLO, sin embargo, cuenta con la habilidad de realizar el
     reconocimiento y clasificación al mismo tiempo, lo cual lo determina como
     una de las mejores opciones en tareas de reconocimiento en tiempo real. Es
-    por esto, junto con la facilidad de entrenamiento y uso que proporciona
-    ultralystics, que se decide la utilización de esta herramienta.
+    por esto junto con la facilidad de entrenamiento y uso que proporciona
+    ultralytics que se decide la utilización de esta herramienta.
 
     \section{La IA en el deporte}
-    La inteligencia aritificial ha tenido una gran evolución en los últimos
-    años, expandiéndo su uso a diferentes áreas nunca antes imaginadas. El
+    La inteligencia artificial ha tenido una gran evolución en los últimos
+    años, expandiendo su uso a diferentes áreas nunca antes imaginadas. El
     mundo del deporte no ha sido una excepción, siendo la IA una herramienta de
     gran potencial para la comprensión profunda del rendimiento
     deportivo~\cite{ia-sport}. Algunos ejemplos de su uso son el análisis de
@@ -413,10 +413,10 @@ hmargin=3cm
     Interaction}~\cite{wearable} para reconocer los diferentes gestos a través
     de sensores de tipo \textit{wearable}. Adicionalmente, también existen
     otras aplicaciones como SAETA~\cite{SAETA}, un modelo desarrollado por
-    Javier Vales-Aloson et al. para  la asistencia a entrenadores y atletas.
+    Javier Vales-Aloson et. al. para  la asistencia a entrenadores y atletas.
 
 
-    Sin embargo, la toma  de estadísticas sigue siendo una
+    Sin embargo, el análisis deportivo de estadísticas sigue siendo una
     actividad hecha manualmente donde la inteligencia artificial puede tomar un
     rol de gran relevancia.
 
@@ -436,7 +436,7 @@ hmargin=3cm
     groso de equipos federados que no cuentan con recursos suficientes para que
     esta actividad presente ventajas frente al esfuerzo que requiere. Hablando
     en concreto de Madrid, existen 99 clubes~\cite{directorio-clubes} y más de
-    6000 deportistas~\cite{estadisticasFEVB}; mientras que sólamente hay
+    6000 deportistas~\cite{estadisticasFEVB}; mientras que solamente hay
     201 técnicos (entrenadores y auxiliares)~\cite{estadisticasFEVB}. Esto
     refleja el claro desbalance que existe entre técnicos y deportistas, lo que
     hace imposible que muchos clubes cuenten con los recursos suficientes para
@@ -513,17 +513,17 @@ hmargin=3cm
     Para la realización del proyecto se han utilizado tres conjuntos de datos.
     El primero cuenta con 4835 secuencias extraídas de 55 vídeos
     de partidos de voleibol profesional. Cada secuencia está compuesta de 41
-    frames~\cite{dataset1}. 
+    fotogramas~\cite{dataset1}. 
     Para cada secuencia se etiqueta la acción realizada durante
-    la secuencia, con uno de los siguientes valores: \verb!l-spike!,
+    esta con uno de los siguientes valores: \verb!l-spike!,
     \verb!r_spike!, \verb!r-pass!, \verb!l_winpoint!, \verb!l_set!,
     \verb!l-pass!, \verb!r_winpoint! o \verb!r_set!. Además, también se etiqueta
-    la posición y acción de cada jugador durante los frames 11 a 30. Esto se
+    la posición y acción de cada jugador durante los fotogramas 11 a 30. Esto se
     hace con una 10-tupla con los valores ID del jugador, \verb!xmin!,
     \verb!ymin!, \verb!xmax!, \verb!ymax!, ID del frame en su video,
-    \verb!lost!, \verb!grouping!, \verb!generated! y tipo. \verb!xmin!,
+    \verb!lost!, \verb!grouping!, \verb!generated! y tipo. Los valores \verb!xmin!,
     \verb!ymin!, \verb!xmax! e \verb!ymax! definen el rectangulo en el que se
-    encuentra el jugador, y el tipo puede tomar uno de los siguientes valores:
+    encuentra el jugador. El tipo puede tomar uno de los siguientes valores:
     \verb!waiting!, \verb!setting!, \verb!blocking!, \verb!spiking!,
     \verb!standing!, \verb!falling!, \verb!jumping!, \verb!moving! o
     \verb!digging!. Por último, \verb!lost! indica si el rectangulo anotado está
@@ -562,7 +562,7 @@ hmargin=3cm
 
     \chapter{Metodología}
     \label{chap:metodologia}
-    En este capítulo se describirán los difentes procesos llevados a cabo para la construcción y evaluación del modelo. Todos los \textit{scripts} mencionados han sido incluídos en el \hyperref[anexo]{Anexo}.
+    En este capítulo se describirán los diferentes procesos llevados a cabo para la construcción y evaluación del modelo. Todos los \textit{scripts} mencionados han sido incluidos en el \hyperref[anexo]{Anexo}.
 
     \section{Filtrado de datos y etiquetado}
 
@@ -582,7 +582,7 @@ hmargin=3cm
         ambas manos.
         \item \textbf{Negativa:} se clasifica una colocación como negativa si
         el jugador no ha logrado realizar un pase con la yema de los dedos,
-        golpeándo el balón con el antebrazo o empleando una sóla mano.
+        golpeando el balón con el antebrazo o empleando una sola mano.
     \end{itemize}
     
     Dado que existen un gran número de secuencias positivas frente a las
@@ -596,9 +596,9 @@ hmargin=3cm
     Las secuencias se han separado en dos carpetas, cada una conteniendo los
     frames las secuencias de los subconjuntos de entrenamiento y evaluación.
     Adicionalmente, para cada carpeta se han dividido los frames en subconjuntos
-    para cada una de las clases. Para esto se ha usado un programa en \texttt{Python}.
+    para cada una de las clases usando un programa en \texttt{Python}.
 
-    Adicionalmente se ha creado una clase más denominada \textit{wait} para
+    Por último se ha creado una clase más denominada \textit{wait} para
     aquellos frames que no aporten información relativa al tipo de acción. Se
     compararán los resultados obtenidos empleando y sin emplear esta clase.
 
@@ -606,14 +606,14 @@ hmargin=3cm
 
     Los datos cuentan con un desbalanceo muy fuerte hacia la clase positiva: tan
     solo un $2.59\%$ de las instancias están etiquetadas como negativas. Debido
-    a esto, se ha decidido realizar tanto un \textit{oversampling} de la clase
-    minoritaria como un \textit{undersampling} de la clase mayoritaria. 
+    a esto, se ha decidido realizar un proceso tanto de \textit{oversampling} de la clase
+    minoritaria como de \textit{undersampling} de la clase mayoritaria. 
 
     \subsection{Oversampling}
 
-    Para el oversampling se ha usado la librería de python
+    Para el proceso de oversampling se ha utilizado la librería de python
     Albumentations~\cite{albumentations}, que permite aplicar transformaciones a imágenes
-    para crear nuevas instancias, mediante el uso de redes neuronales profundas.
+    para crear nuevas instancias mediante el uso de redes neuronales profundas.
     
     Para generar nuevas instancias se han aplicado entre 1 y 9 transformaciones
     seleccionadas de forma aleatoria a cada imagen, generando 4
@@ -623,7 +623,7 @@ hmargin=3cm
 
     El proceso seguido para cada imagen es el siguiente: 
     \begin{enumerate}
-        \item Generación aleatoria de un número entre 1 y 9: este número respresenta el número de transformaciones que se aplicarán a la imagen.
+        \item Generación aleatoria de un número entre 1 y 9: este número representa el número de transformaciones que se aplicarán a la imagen.
         \item Aplicación de las transformaciones: mediante la función \texttt{SomeOf} se aplica un subconjunto de las 20 transformaciones seleccionadas.
     \end{enumerate}
     Estas operaciones se repiten 4 veces para cada imagen. Con el fin de
@@ -1090,7 +1090,7 @@ hmargin=3cm
     modelos de clasificación es la poca capacidad de generalización. Esto es un
     ámbito multifactorial que requiere de una mayor exploración para alcanzar
     un mejor rendimiento a través de la optimización de hiperparámetros o de la
-    amplicaciónn del conjunto de entrenamiento.
+    aplicación del conjunto de entrenamiento.
 
     En cuanto al modelo de seguimiento de balón, se ha logrado desarrollar un
     modelo que funciona adecuadamente en contextos de entrenamiento. Esto tiene
