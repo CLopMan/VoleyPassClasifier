@@ -631,8 +631,8 @@ hmargin=3cm
     usado la semilla $1492$. Esta semilla se ha aumentado en 1 para cada
     ejecución.
 
-    Adicionalmente, se han castigado números altos de transformaciones debido a
-    que podrían generar imágenes demasiado distorsionadas y, por tanto, no
+    Adicionalmente, se han castigado números altos de transformaciones ya
+    que podrían generar imágenes demasiado distorsionadas y, por lo tanto, no
     óptimas para el entrenamiento. Para ello se ha añadido una probabilidad a
     la aplicación de una transformación como se describe a continuación:
 
@@ -661,29 +661,29 @@ hmargin=3cm
 %    a 3 la probabilidad será 1, si es 4 o 5 será 0.6 y si es 6 o más será 0.3. 
 
     A pesar de existir un gran número de transformaciones en la librería
-    Albumentations se han seleccionado únicamente 20 de estas. Esto se debe a
+    Albumentations, se han seleccionado únicamente 20 de estas. Esto se debe a
     que muchas transformaciones generan instancias demasiado alejadas de las
-    condiciones habituales en los centros deportivos (e.g. simulación de nieves
+    condiciones habituales en los centros deportivos (e.g. simulación de nieve
     o inversión de color), lo que podría ensuciar el conjunto de datos. A
     continuación se enumeran las transformaciones seleccionadas:
 
     \begin{enumerate} \item \textbf{CLAHE:} esta transformación, cuyas siglas
     significan \textit{Contrast Limited Adaptive Histogram Equalization},
-    mejora el contraste de una imagen. Se ha elegido debido a que pueden darse
-    instancias en las que debido a los ajustes de una cámara las imágenes
+    mejora el contraste de una imagen. Se ha elegido ya que pueden darse
+    instancias en las que por los ajustes de una cámara las imágenes
     tengan diferentes contrastes.
     \item \textbf{ChromaticAberration:} la
     transformación simula una cámara que no ha enfocado todos los colores al
-    mismo punto por lo que algunos de los colores aparecen desfasados de otros,
-    en este caso el azul y rojo están desfasados del verde.
-    \item \textbf{ColorJitter:} modifica le brillo, el contraste, la saturación y el
+    mismo punto por lo que algunos de los colores aparecen desfasados de otros. 
+    En este caso el azul y rojo están desfasados del verde.
+    \item \textbf{ColorJitter:} modifica el brillo, el contraste, la saturación y el
     tono, que pueden cambiar dependiendo de factores como la iluminación. Por
-    esto se ha considerado una transformación posible aunque el rango de
-    transformación del tono definido es muy pequeño, ya que se quería simular
+    esto se ha considerado una transformación posible.  El rango de
+    transformación del tono definido es muy pequeño ya que se quería simular
     cambios ligeros por iluminación o calibración de la cámara y no cambios
     grandes no comunes.
     \item \textbf{Downscale:} reduce la calidad de la
-    imagen reduciendo su tamaño y volviendo a aumentarlo.  Variaciones de
+    imagen reduciendo su tamaño y volviendo a aumentarlo. Variaciones de
     calidad de una imagen dependen de la cámara usada por lo que se ha
     considerado una situación posible en una instancia obtenida de manera
     natural.
@@ -695,7 +695,7 @@ hmargin=3cm
     mismo número de pixeles. Este es otro efecto que puede aparecer
     naturalmente debido a ajustes de la cámara.
     \item \textbf{GaussNoise:}
-    inserta ruido en la imagen siguiendo una distribución gausiana. Una imagen,
+    inserta ruido en la imagen siguiendo una distribución gaussiana. Una imagen,
     sobretodo si no es de mucha calidad, puede tener ruido naturalmente, y esta
     transformación imita esto.
     \item \textbf{HorizontalFlip:} refleja la foto
@@ -710,10 +710,10 @@ hmargin=3cm
     principales del ruido ISO: cambios aleatorios en el tono de los colores y
     variaciones aleatorias en intensidad de los pixeles.
     \item \textbf{ImageCompression:} decrementa la calidad de la imagen
-    comprimiéndola a un formato ``\verb!jpeg!''. Simula casos en los que las imagenes
+    comprimiéndola a un formato ``\verb!jpeg!''. Simula casos en los que las imágenes
     son de peor calidad.
     \item \textbf{Morphological:} aumenta el grosor de
-    zonas blancas de la imagen, simulando una mayor iluminazión de la zona.
+    zonas blancas de la imagen, simulando una mayor iluminación de la zona.
     \item \textbf{PlanckianJitter:} simula variaciones de temperatura de la luz
     en una imagen que en este caso sería el tono de las luces de la pista.
     \item \textbf{Posterize:} reduce el número de bits para cada color en una
@@ -722,13 +722,13 @@ hmargin=3cm
     \item \textbf{RGBShift:} la transformación
     modifica aleatoriamente e individualmente los canales RGB de la imagen.  El
     rango de modificación que se ha definido es pequeño ya que solo se busca
-    obtener imagenes con ligeras variaciones que podrían ser probocadas por el
+    obtener imágenes con ligeras variaciones que podrían ser provocadas por el
     tipo de luz o por la cámara usada.
     \item \textbf{RandomBrightnessContrast:} cambia el brillo y contraste de la
     imagen, creando instancias de como sería la imagen en otras condiciones
     lumínicas.
     \item \textbf{RandomGamma:} similar a la transformación
-    anterior pero modificando el Gamma. Con esto se asegura que aunque cambie
+    anterior pero modificando el valor Gamma. Con esto se asegura que aunque cambie
     el brillo la relación entre claros y oscuros se mantendrá.
     \item \textbf{RandomToneCurve:} manipula la curva del tono cambiando la relación
     entre las zonas oscuras y las claras de la imagen. Simula diferentes
@@ -744,7 +744,7 @@ hmargin=3cm
 
     \subsection{Undersampling}
 
-    Se ha menguado el conjunto de datos de instancias positivas en un 50\%. Esto permite una mayor proporción de instnacias negativas, mantiendo una gran representatibidad de la clase positiva.
+    Se ha menguado el conjunto de datos de instancias positivas en un 50\%. Esto permite una mayor proporción de instancias negativas, manteniendo una gran representatividad de la clase positiva.
 
     \subsection{Resultados}
 
@@ -753,7 +753,7 @@ hmargin=3cm
 \begin{minipage}{0.45\textwidth}
     \begin{figure}[H]
     \includegraphics[width=0.9\textwidth]{datos-prev.jpg}
-    \caption  {\small{Distribución previo al proceso de oversampling y undersampling}}
+    \caption  {\small{Distribución previa al proceso de oversampling y undersampling}}
     \end{figure}
 \end{minipage}
 \hspace{0.5cm}
@@ -831,7 +831,7 @@ hmargin=3cm
     clasificación de la secuencia. De esta forma se espera poder construir un
     modelo más robusto y fiel a la realidad.
 
-    Con todo lo anterior, las clases de cada modelo qeudan representadas por la siguiente estructura de ficheros:
+    Con todo lo anterior, las clases de cada modelo quedan representadas por la siguiente estructura de ficheros:
 
     \begin{figure}[H]
         \includegraphics[width=0.4\textwidth]{folders_binario.jpeg}
@@ -843,7 +843,7 @@ hmargin=3cm
 %    Este segundo modelo busca corregir el problema que se puede encontrar al ser los fotogramas externos a los instantes de la acción virtualmente idénticos independientemente de la clasificación de esta. Esto se teoriza que puede provocar que el modelo confunda ambas clases en las predicciones de estos fotogramas y no se consigan resultados precisos.
     
     \subsection{Detección de objetos}
-    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO~\cite{YOLODetect}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Esto sirve de ayuda visual a estadisticos o analistas de partidos sobre todo en competiciones masculinas, donde la bola puede alcanzar velocidades de hasta 140 km/h. 
+    Se crea un modelo utilizando la tarea de Detección y Seguimiento de YOLO~\cite{YOLODetect}, con el objetivo de colocar una ``caja'' que marque el recorrido de la pelota en un video. Esto sirve de ayuda visual a estadísticos o analistas de partidos sobre todo en competiciones masculinas, donde la bola puede alcanzar velocidades de hasta 140 km/h. 
 
     Como primera aproximación, se intentó usar el segundo conjunto de datos presentado anteriormente. Sin embargo, la limitación en potencia de cómputo de nuestras máquinas hacía de este algo imposible por la gran duración del proceso de entrenamiento. En consecuencia, se ha empleado el tercer conjunto de datos. Este conjunto presenta además otras ventajas como es la mayor variabilidad de condiciones en las imágenes (luminosidad, contraste, fondos...), que se asemejan más a las condiciones que se puenden encontrar en pabellones comunes de competiciones de bajo nivel.
 
@@ -855,11 +855,11 @@ hmargin=3cm
 
     \section{Evaluación}
 
-    Para la evaluación se emplearán dos medidas, principalemente. La primera,
-    la función \textit{Loss}, que mide como de mala es una predicción. La
+    Para la evaluación se emplearán dos medidas, principalmente. La primera,
+    la función \textit{Loss}, mide como de mala es una predicción. La
     segunda, la matriz de confusión, muestra los valores predichos para cada
-    una de las clases. En esta última, trataremos de reducir los falsos
-    negavitos. También se emplearán los datos de salida de YOLO, que incluyen
+    una de las clases. En esta última, se tratará de reducir los falsos
+    negativos. También se emplearán los datos de salida de YOLO, que incluyen
     la clasificación de cada fotograma, el nivel de confianza medio, el
     porcentaje de cada clase sobre el total de fotogramas y la precisión del
     modelo.
@@ -907,11 +907,11 @@ hmargin=3cm
     mejorar con un entrenamiento más largo.
 
     Al observar la matriz de confusión de los modelos entrenados (\textit{fig.}
-    \ref{mc1} y \ref{mc2}), se puede apreicar una gran diferencia entre
+    \ref{mc1} y \ref{mc2}), se puede apreciar una gran diferencia entre
     modelos.El modelo binario es capaz de obtener una baja tasa de falsos
     negativos, pero tiene algunas dificultades diferenciando las instancias
     negativas de las positivas. El modelo ternario, por otro lado es incapaz
-    de diferenciar las instacias incorrectas de las de espera.  Además, el
+    de diferenciar las instancias incorrectas de las de espera.  Además, el
     modelo también tiene dificultades para diferenciar las instancias correctas
     de los frames de espera. Esto puede deberse a la baja diferencia que existe
     entre los frames de estas clases. A pesar de que la clase espera se creó
@@ -943,7 +943,7 @@ hmargin=3cm
 %    frames se etiquetan con la clase de espera.
     
     Al enfrentar ambos modelos frente a vídeos en un entrenamiento real se han
-    obtenido los resultados recogidos en la siguietne tabla. Es importante
+    obtenido los resultados recogidos en la siguiente tabla. Es importante
     destacar que YOLO genera dos modelos, uno con el mejor resultado del
     entrenamiento y otro entrenado con el último \textit{epoch}.
 
@@ -974,12 +974,12 @@ hmargin=3cm
     resultados indican que, aunque el modelo ha obtenido un buen rendimiento en
     el conjunto de \textit{test}, no ha sido capaz de generalizar a nuevas
     instancias. Esto puede deberse a a la gran diferencia entre los vídeos
-    utilizados en el entrenmaiento y los vídeos recopilados por el grupo de
+    utilizados en el entrenamiento y los vídeos recopilados por el grupo de
     investigación. Para solucionar este problema, sería necesario recopilar y
     etiquetar nuevos datos con mayor variación. Esta tarea requeriría de mayor
     tiempo y recursos. Adicionalmente, se presenta el problema de la
     clasificación de secuencias. Mientras que YOLO trata los fotogramas de
-    forma independinete, ortorgando a la secuencia la clase mayoritaria de los
+    forma independiente, otorgando a la secuencia la clase mayoritaria de los
     mismos, sería interesante explorar modelos que sí puedan trabajar con
     secuencias completas. En el apartado de trabajos futuros se explorará más
     esta alternativa.
