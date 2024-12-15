@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import numpy as np
 
 # Loading the trained model
-model = YOLO("./runs/classify/train/weights/best.pt")
+model = YOLO("best.pt")
 
 # The file we want to predict will be passed through input
 input_predict = input("Introduce el fichero a predecir:")
