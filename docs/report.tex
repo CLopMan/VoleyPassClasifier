@@ -364,7 +364,7 @@ hmargin=3cm
 
     Este trabajo de investigación explora el desarrollo y aplicación de una
     inteligencia artificial entrenada específicamente para evaluar acciones de
-    voleibol en vídeo. La propuesta combina algoritmos ámpliamente
+    voleibol en vídeo. La propuesta combina algoritmos ampliamente
     desarrollados para el reconocimiento de imágenes como YOLO~\cite{YOLO} y
     técnicas de análisis deportivo.
 
@@ -395,8 +395,8 @@ hmargin=3cm
     secuenciales. YOLO, sin embargo, cuenta con la habilidad de realizar el
     reconocimiento y clasificación al mismo tiempo, lo cual lo determina como
     una de las mejores opciones en tareas de reconocimiento en tiempo real. Es
-    por esto junto con la facilidad de entrenamiento y uso que proporciona
-    ultralytics que se decide la utilización de esta herramienta.
+    por esto, junto con la facilidad de entrenamiento y uso que proporciona
+    ultralytics, que se decide la utilización de esta herramienta.
 
     \section{La IA en el deporte}
     La inteligencia artificial ha tenido una gran evolución en los últimos
@@ -470,7 +470,7 @@ hmargin=3cm
     y 5 de manera habitual. Esto sumado a que la mayoría de entrenadores no
     tienen el voleibol como fuente de ingresos principal y que deben combinar
     su actividad como técnicos deportivos con otras actividades se
-    traduce en que a muchos entrenadores les resulte imposible invertir su
+    traduce en que a muchos entrenadores les resulta imposible invertir su
     tiempo en revisar las grabaciones y tomar estadísticas de sus equipos.
 
     Adicionalmente, la mayoría de pabellones y clubes no cuentan con la
@@ -585,7 +585,7 @@ hmargin=3cm
         golpeando el balón con el antebrazo o empleando una sola mano.
     \end{itemize}
     
-    Dado que existen un gran número de secuencias positivas frente a las
+    Dado que existe un gran número de secuencias positivas frente a las
     negativas, se ha usado un \textit{script} de \texttt{bash} (ver
     \ref{preclasificado}) para realizar un preclasificado de las secuencias.
     Además, ha sido necesario modificar la segunda base de datos para incluir
@@ -594,7 +594,7 @@ hmargin=3cm
     tamaño genérico igual para todas las instancias ($20\text{px}\times20\text{px}$).
 
     Las secuencias se han separado en dos carpetas, cada una conteniendo los
-    frames las secuencias de los subconjuntos de entrenamiento y evaluación.
+    frames de los subconjuntos de entrenamiento y evaluación.
     Adicionalmente, para cada carpeta se han dividido los frames en subconjuntos
     para cada una de las clases usando un programa en \texttt{Python}.
 
@@ -715,9 +715,9 @@ hmargin=3cm
     \item \textbf{Morphological:} aumenta el grosor de
     zonas blancas de la imagen, simulando una mayor iluminación de la zona.
     \item \textbf{PlanckianJitter:} simula variaciones de temperatura de la luz
-    en una imagen que en este caso sería el tono de las luces de la pista.
+    en una imagen, que en este caso sería el tono de las luces de la pista.
     \item \textbf{Posterize:} reduce el número de bits para cada color en una
-    imagen. El efecto final es de una imagen que ha perdido calidad y se han
+    imagen. El efecto final es de una imagen que ha perdido calidad y en la que se han
     unificado algunos colores.
     \item \textbf{RGBShift:} la transformación
     modifica aleatoriamente e individualmente los canales RGB de la imagen.  El
@@ -738,13 +738,13 @@ hmargin=3cm
     aplica porque simula como sería una imagen si la cámara estuviera
     desenfocada.
     \item \textbf{Sharpen:} utiliza interpolado para ``afilar'' la
-    imagen. Hace que los bordes sean más pronunciados pero como efecto
-    secundario lleva a que se pierda calidad de la imagen.
+    imagen. Hace que los bordes sean más pronunciados pero, como efecto
+    secundario, lleva a que se pierda calidad de la imagen.
     \end{enumerate}
 
     \subsection{Undersampling}
 
-    Se ha menguado el conjunto de datos de instancias positivas en un 50\%. Esto permite una mayor proporción de instancias negativas, manteniendo una gran representatividad de la clase positiva.
+    Se ha menguado el conjunto de datos de instancias positivas en un 50\%, eliminando instancias seleccionadas aleatoriamente. Esto permite una mayor proporción de instancias negativas, manteniendo una gran representatividad de la clase positiva.
 
     \subsection{Resultados}
 
@@ -801,7 +801,7 @@ hmargin=3cm
     frente a los 41 que dura la secuencia, lo que podría provocar un desajuste
     en la predicción.
     
-    Con el fin de mermar todo lo posible este problema, se han trabajado con
+    Con el fin de mermar todo lo posible este problema, se ha trabajado con
     dos aproximaciones diferentes para la clasificación: 
 
 %    En este caso se utiliza un modelo preentrenado como base,
@@ -855,7 +855,7 @@ hmargin=3cm
 
     \section{Evaluación}
 
-    Para la evaluación se emplearán dos medidas, principalmente. La primera,
+    Para la evaluación se emplearán dos medidas principalmente. La primera,
     la función \textit{Loss}, mide como de mala es una predicción. La
     segunda, la matriz de confusión, muestra los valores predichos para cada
     una de las clases. En esta última, se tratará de reducir los falsos
@@ -910,7 +910,7 @@ hmargin=3cm
     \ref{mc1} y \ref{mc2}), se puede apreciar una gran diferencia entre
     modelos.El modelo binario es capaz de obtener una baja tasa de falsos
     negativos, pero tiene algunas dificultades diferenciando las instancias
-    negativas de las positivas. El modelo ternario, por otro lado es incapaz
+    negativas de las positivas. El modelo ternario por otro lado es incapaz
     de diferenciar las instancias incorrectas de las de espera.  Además, el
     modelo también tiene dificultades para diferenciar las instancias correctas
     de los frames de espera. Esto puede deberse a la baja diferencia que existe
@@ -989,7 +989,7 @@ hmargin=3cm
     Durante la evaluación del modelo de detección del balón, se han encontrado
     varios problemas. En el conjunto de \textit{test}, encontrar el balón tiene
     una alta complejidad debido a la gran velocidad del mismo, lo que hace que
-    aparezca borroso en los vídeos, su tamaño que hace que sea fácil de
+    aparezca borroso en los vídeos; su tamaño, que hace que sea fácil de
     confundir con el fondo de los vídeos o los espectadores, y la existencia de
     iconos similares al balón en los vídeos. La siguiente figura muestra un
     ejemplo de este último problema.
@@ -1004,7 +1004,7 @@ hmargin=3cm
         \caption{Ejemplo de falso positivo debido a un icono en el vídeo}
     \end{figure}
 
-    En los casos reales, en los que la bola se puede ver más fácilmente, el
+    En los casos reales en los que la bola se puede ver más fácilmente el
     modelo confunde fuentes de luz con balones, como se
     puede ver en la siguiente figura. Cabe destacar que estos falsos positivos
     tienen una baja confianza.
@@ -1077,7 +1077,7 @@ hmargin=3cm
     muestran la necesidad de una mayor inversión en investigación y exploración
     de otros métodos. De la mano con otros autores, durente este proyecto se ha
     demostrado que la IA puede automatizar muchos procesos que antes se creían
-    imposible, abaratando costes y facilitando el desarrollo de actividades
+    imposibles, abaratando costes y facilitando el desarrollo de actividades
     profesionales en deportes minoritarios. 
 
     También es destacable la importancia de la potencia de cómputo en el
